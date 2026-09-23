@@ -1,0 +1,56 @@
+/*
+ * Design Tokens — بخش ۲۲ سند
+ * تمام رنگ‌ها، تایپوگرافی، Spacing و Radius فقط اینجا تعریف می‌شوند.
+ * هیچ فایل دیگری نباید مقدار Hard-coded رنگ/فاصله داشته باشد.
+ */
+:root {
+    /* رنگ‌ها */
+    --background: #F8F9FB;
+    --surface: #FFFFFF;
+    --primary: #7A2E3B;
+    --primary-hover: #5E2029;
+    --text: #171717;
+    --text-muted: #6B7280;
+    --border: #E5E7EB;
+    --success: #16A34A;
+    --warning: #F59E0B;
+    --danger: #DC2626;
+    --discount: #EF4444;
+
+    /* تایپوگرافی */
+    --font-family: "Vazirmatn", -apple-system, sans-serif;
+    --font-weight-regular: 400;
+    --font-weight-medium: 500;
+    --font-weight-semibold: 600;
+    --font-weight-bold: 700;
+
+    /* Spacing (بخش ۲۲) */
+    --space-1: 4px;
+    --space-2: 8px;
+    --space-3: 12px;
+    --space-4: 16px;
+    --space-6: 24px;
+    --space-8: 32px;
+    --space-12: 48px;
+    --space-16: 64px;
+    --space-20: 80px;
+
+    /* Radius */
+    --radius-button: 10px;
+    --radius-input: 10px;
+    --radius-card: 14px;
+    --radius-modal: 18px;
+    --radius-image: 14px;
+    --radius-badge: 8px;
+
+    /* Motion */
+    --motion-fast: 150ms;
+    --motion-base: 200ms;
+    --motion-slow: 300ms;
+    --motion-easing: cubic-bezier(0.4, 0, 0.2, 1);
+
+    /* Z-index */
+    --z-header: 100;
+    --z-modal: 1000;
+    --z-toast: 1100;
+}

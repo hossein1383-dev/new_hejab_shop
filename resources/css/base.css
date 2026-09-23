@@ -1,0 +1,92 @@
+/* Reset مینیمال + پایه Typography — بخش ۲۲ و ۳۱ */
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+html {
+    direction: rtl; /* بخش ۳۱: RTL جهت اصلی سایت */
+}
+
+body {
+    margin: 0;
+    font-family: var(--font-family);
+    font-weight: var(--font-weight-regular);
+    color: var(--text);
+    background: var(--background);
+    line-height: 1.6;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+button, input, select, textarea {
+    font-family: inherit;
+    font-size: inherit;
+}
+
+img {
+    max-width: 100%;
+    display: block;
+}
+
+/* بخش ۲۷: کاربرانی که Animation کم را ترجیح می‌دهند */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+    }
+}
+
+/* بخش ۳۱: Focus قابل مشاهده برای Accessibility */
+:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+}
+
+/* بخش ۲۲: صفحه‌بندی مشترک کل سایت (جایگزین View پیش‌فرض Tailwind لاراول) */
+.app-pagination__list {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    list-style: none;
+    padding: 0;
+    margin: var(--space-6) 0;
+}
+
+.app-pagination__link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 36px;
+    height: 36px;
+    padding: 0 var(--space-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-button);
+    color: var(--text);
+    font-size: 0.9rem;
+    text-decoration: none;
+    background: var(--surface);
+}
+
+.app-pagination__link:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+.app-pagination__item--active .app-pagination__link {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: #fff;
+}
+
+.app-pagination__item--disabled .app-pagination__link,
+.app-pagination__item--dots .app-pagination__link {
+    color: var(--text-muted);
+    background: transparent;
+    border-color: transparent;
+    cursor: default;
+}

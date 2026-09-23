@@ -1,0 +1,462 @@
+.product-page {
+    padding: 0 var(--space-4) var(--space-8);
+}
+
+.product-page__brand {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+}
+
+.product-page__name {
+    font-weight: var(--font-weight-bold);
+    margin: var(--space-2) 0;
+}
+
+.product-page__price-row {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-3);
+    margin-bottom: var(--space-3);
+}
+
+.product-page__price {
+    font-size: 1.4rem;
+    font-weight: var(--font-weight-bold);
+    color: var(--text);
+}
+
+.product-page__old-price {
+    color: var(--text-muted);
+    text-decoration: line-through;
+}
+
+.product-page__in-stock {
+    color: var(--success);
+    font-size: 0.85rem;
+    font-weight: var(--font-weight-medium);
+}
+
+.product-page__out-of-stock {
+    color: var(--danger);
+    font-size: 0.85rem;
+    font-weight: var(--font-weight-medium);
+}
+
+.product-page__short-desc {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin: var(--space-3) 0;
+}
+
+.product-page__variants {
+    margin: var(--space-4) 0;
+}
+
+.product-page__variant-group {
+    margin-bottom: var(--space-3);
+}
+
+.product-page__variant-label {
+    display: block;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: var(--space-2);
+}
+
+.product-page__variant-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+}
+
+.product-page__variant-option {
+    border: 1px solid var(--border);
+    border-radius: var(--radius-button);
+    padding: var(--space-2) var(--space-4);
+    background: var(--surface);
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: border-color var(--motion-fast), color var(--motion-fast);
+}
+
+.product-page__variant-option.is-selected {
+    border-color: var(--primary);
+    color: var(--primary);
+    font-weight: var(--font-weight-medium);
+}
+
+.product-page__quantity-row {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    margin: var(--space-4) 0;
+}
+
+.product-page__quantity-label {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+.product-page__quantity-stepper {
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-button);
+    overflow: hidden;
+}
+
+.product-page__quantity-stepper button {
+    width: 40px;
+    height: 40px;
+    border: none;
+    background: var(--background);
+    font-size: 1.1rem;
+    cursor: pointer;
+}
+
+.product-page__quantity-stepper input {
+    width: 48px;
+    text-align: center;
+    border: none;
+    border-right: 1px solid var(--border);
+    border-left: 1px solid var(--border);
+    height: 40px;
+}
+
+.product-page__actions {
+    display: flex;
+    gap: var(--space-3);
+    margin: var(--space-4) 0;
+}
+
+.product-page__add-to-cart,
+.product-page__buy-now {
+    flex: 1;
+    height: 48px;
+    border-radius: var(--radius-button);
+    font-weight: var(--font-weight-semibold);
+    cursor: pointer;
+    border: none;
+}
+
+.product-page__add-to-cart {
+    background: var(--background);
+    border: 1px solid var(--primary);
+    color: var(--primary);
+}
+
+.product-page__buy-now {
+    background: var(--primary);
+    color: #fff;
+}
+
+.product-page__add-to-cart:disabled,
+.product-page__buy-now:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.product-page__wishlist {
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-button);
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text-muted);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.product-page__wishlist.is-active {
+    color: var(--discount);
+    border-color: var(--discount);
+}
+
+.product-page__trust {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    margin-top: var(--space-4);
+}
+
+.product-page__rating {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    margin-bottom: var(--space-3);
+}
+
+.product-page__rating-stars {
+    color: var(--warning);
+    letter-spacing: 2px;
+}
+
+.review-item {
+    padding: var(--space-3) 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.review-item__header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: var(--space-1);
+    font-size: 0.9rem;
+}
+
+.review-item__comment {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+.qa-item {
+    padding: var(--space-3) 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.qa-item__question,
+.qa-item__answer {
+    font-size: 0.9rem;
+    margin: var(--space-1) 0;
+}
+
+.qa-item__answer {
+    color: var(--text-muted);
+    padding-right: var(--space-4);
+}
+
+.qa-empty {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+}
+
+.qa-form {
+    margin-top: var(--space-4);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+}
+
+.qa-form__stars {
+    display: flex;
+    gap: var(--space-1);
+    font-size: 1.3rem;
+    color: var(--warning);
+}
+
+.qa-form__stars button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+}
+
+.qa-form textarea {
+    border: 1px solid var(--border);
+    border-radius: var(--radius-input);
+    padding: var(--space-3);
+    font-family: inherit;
+    resize: vertical;
+}
+
+.qa-form__submit {
+    align-self: flex-start;
+    background: var(--primary);
+    color: #fff;
+    border: none;
+    border-radius: var(--radius-button);
+    padding: var(--space-2) var(--space-6);
+    cursor: pointer;
+    font-weight: var(--font-weight-medium);
+}
+
+.product-page__accordion {
+    border-bottom: 1px solid var(--border);
+    padding: var(--space-4) 0;
+}
+
+.product-page__accordion summary {
+    cursor: pointer;
+    font-weight: var(--font-weight-medium);
+}
+
+.product-page__accordion-body {
+    margin-top: var(--space-3);
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    line-height: 1.9;
+}
+
+/* ==========================================================================
+   MOBILE (360px - 430px)
+   ========================================================================== */
+.product-page__gallery-desktop {
+    display: none;
+}
+
+.product-gallery-mobile__track {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+}
+
+.product-gallery-mobile__track::-webkit-scrollbar {
+    display: none;
+}
+
+.product-gallery-mobile__slide {
+    flex: 0 0 100%;
+    scroll-snap-align: start;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+}
+
+.product-gallery-mobile__dots {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-2);
+    padding: var(--space-3) 0;
+}
+
+.product-gallery-mobile__dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--border);
+    transition: background var(--motion-fast);
+}
+
+.product-gallery-mobile__dot.is-active {
+    background: var(--primary);
+}
+
+/* Sticky Purchase CTA — فقط موبایل (بخش ۲۰.۱ جدول) */
+.product-page__sticky-cta {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    padding: var(--space-3) var(--space-4);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+    z-index: var(--z-header);
+    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.product-page__sticky-price {
+    font-weight: var(--font-weight-bold);
+}
+
+.product-page__sticky-add {
+    background: var(--primary);
+    color: #fff;
+    border: none;
+    border-radius: var(--radius-button);
+    padding: var(--space-3) var(--space-6);
+    font-weight: var(--font-weight-semibold);
+    cursor: pointer;
+}
+
+/* برای اینکه محتوای انتهای صفحه زیر Sticky Bar گم نشود */
+.product-page {
+    padding-bottom: calc(var(--space-16) + 56px);
+}
+
+/* ==========================================================================
+   DESKTOP (1280px - 1920px)
+   ========================================================================== */
+@media (min-width: 1024px) {
+    .product-page {
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 0 var(--space-6) var(--space-12);
+    }
+
+    .product-page__layout {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: var(--space-12);
+        align-items: start;
+    }
+
+    .product-page__gallery-mobile {
+        display: none;
+    }
+
+    .product-page__gallery-desktop {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-3);
+    }
+
+    .product-gallery-desktop__thumbnails {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: var(--space-2);
+        order: 2; /* بعد از تصویر اصلی نمایش داده شود، مهم نیست ترتیبشان در HTML چیست */
+    }
+
+    .product-gallery-desktop__thumb {
+        border: 2px solid transparent;
+        border-radius: var(--radius-image);
+        overflow: hidden;
+        padding: 0;
+        cursor: pointer;
+        background: none;
+        width: 72px;
+        flex-shrink: 0;
+    }
+
+    .product-gallery-desktop__thumb.is-active {
+        border-color: var(--primary);
+    }
+
+    .product-gallery-desktop__thumb img {
+        width: 100%;
+        aspect-ratio: 1 / 1;
+        object-fit: cover;
+    }
+
+    .product-gallery-desktop__main {
+        order: 1; /* همیشه اول (بالا) نمایش داده شود */
+        border-radius: var(--radius-image);
+        overflow: hidden;
+        aspect-ratio: 1 / 1;
+    }
+
+    .product-gallery-desktop__main-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform var(--motion-slow) var(--motion-easing);
+    }
+
+    /* Zoom ظریف با Hover — بدون نیاز به JS/Lightbox پیچیده (بخش ۲۷: از افکت اغراق‌آمیز پرهیز کن) */
+    .product-gallery-desktop__main:hover .product-gallery-desktop__main-image {
+        transform: scale(1.15);
+    }
+
+    .product-page__sticky-cta {
+        display: none; /* در دسکتاپ دکمه کنار قیمت است، نه Sticky (بخش ۲۰.۱ جدول) */
+    }
+
+    .product-page {
+        padding-bottom: var(--space-12);
+    }
+
+    .product-page__price {
+        font-size: 1.75rem;
+    }
+}

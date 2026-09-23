@@ -1,0 +1,231 @@
+.cart-page {
+    padding: 0 var(--space-4) var(--space-8);
+}
+
+.cart-page__empty {
+    text-align: center;
+    padding: var(--space-16) var(--space-4);
+    color: var(--text-muted);
+}
+
+.cart-page__empty svg {
+    margin: 0 auto var(--space-4);
+    opacity: 0.4;
+}
+
+.cart-page__empty-cta {
+    display: inline-block;
+    margin-top: var(--space-4);
+    background: var(--primary);
+    color: #fff;
+    padding: var(--space-3) var(--space-6);
+    border-radius: var(--radius-button);
+    font-weight: var(--font-weight-medium);
+}
+
+.cart-item {
+    display: flex;
+    gap: var(--space-3);
+    padding: var(--space-4) 0;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+}
+
+.cart-item__image-link {
+    flex-shrink: 0;
+    width: 80px;
+    height: 80px;
+    border-radius: var(--radius-image);
+    overflow: hidden;
+    background: var(--background);
+}
+
+.cart-item__image-link img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.cart-item__info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    min-width: 0;
+}
+
+.cart-item__name {
+    color: var(--text);
+    font-weight: var(--font-weight-medium);
+    font-size: 0.9rem;
+}
+
+.cart-item__variant {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.cart-item__unit-price {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+.cart-item__stepper {
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-button);
+    overflow: hidden;
+    width: fit-content;
+}
+
+.cart-item__stepper button {
+    width: 32px;
+    height: 32px;
+    border: none;
+    background: var(--background);
+    cursor: pointer;
+}
+
+.cart-item__stepper span {
+    width: 32px;
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+.cart-item__remove {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    min-width: 32px;
+    min-height: 32px;
+}
+
+.cart-summary {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-card);
+    padding: var(--space-4);
+}
+
+.cart-summary__title {
+    font-weight: var(--font-weight-semibold);
+    margin: 0 0 var(--space-4);
+}
+
+.cart-summary__row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    padding: var(--space-2) 0;
+}
+
+.cart-summary__row--muted {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+}
+
+.cart-summary__row--total {
+    font-weight: var(--font-weight-bold);
+    font-size: 1.05rem;
+}
+
+.cart-summary__divider {
+    border-top: 1px solid var(--border);
+    margin: var(--space-2) 0;
+}
+
+.cart-summary__checkout-btn {
+    width: 100%;
+    height: 48px;
+    background: var(--primary);
+    color: #fff;
+    border: none;
+    border-radius: var(--radius-button);
+    font-weight: var(--font-weight-semibold);
+    cursor: pointer;
+    margin-top: var(--space-4);
+}
+
+.cart-summary__continue-link {
+    display: block;
+    text-align: center;
+    margin-top: var(--space-3);
+    color: var(--text-muted);
+    font-size: 0.85rem;
+}
+
+/* ==========================================================================
+   MOBILE (360px - 430px)
+   تصمیم طراحی: کنترل تعداد/حذف زیر نام محصول (فضای افقی کم است)؛
+   خلاصه سفارش زیر لیست آیتم‌ها (تک‌ستونه).
+   ========================================================================== */
+.cart-item__desktop-controls {
+    display: none;
+}
+
+.cart-item__mobile-controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: var(--space-2);
+}
+
+.cart-item__line-total-mobile {
+    position: absolute;
+    top: var(--space-4);
+    left: 0;
+    font-weight: var(--font-weight-semibold);
+    font-size: 0.85rem;
+}
+
+.cart-summary {
+    margin-top: var(--space-6);
+}
+
+/* ==========================================================================
+   DESKTOP (1280px - 1920px)
+   تصمیم طراحی: هر ردیف کنترل تعداد + جمع ردیف + حذف را در همان سطر نشان
+   می‌دهد (فضای افقی کافی است)؛ خلاصه سفارش Sticky کنار لیست.
+   ========================================================================== */
+@media (min-width: 1024px) {
+    .cart-page {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 0 var(--space-6) var(--space-12);
+    }
+
+    .cart-page__layout {
+        display: grid;
+        grid-template-columns: 1fr 320px;
+        gap: var(--space-8);
+        align-items: start;
+    }
+
+    .cart-item__line-total-mobile {
+        display: none;
+    }
+
+    .cart-item__mobile-controls {
+        display: none;
+    }
+
+    .cart-item__desktop-controls {
+        display: flex;
+        align-items: center;
+        gap: var(--space-6);
+    }
+
+    .cart-item__line-total {
+        font-weight: var(--font-weight-semibold);
+        min-width: 100px;
+        text-align: left;
+    }
+
+    .cart-summary {
+        margin-top: 0;
+        position: sticky;
+        top: calc(var(--space-8) + 80px);
+    }
+}

@@ -1,0 +1,351 @@
+.account-page {
+    padding: 0 var(--space-4) var(--space-12);
+}
+
+.account-nav {
+    display: flex;
+    gap: var(--space-2);
+    overflow-x: auto;
+    padding-bottom: var(--space-3);
+    margin-bottom: var(--space-4);
+    border-bottom: 1px solid var(--border);
+}
+
+.account-nav a,
+.account-nav button {
+    white-space: nowrap;
+    padding: var(--space-2) var(--space-3);
+    border-radius: var(--radius-button);
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.account-nav a.is-active {
+    background: var(--primary);
+    color: #fff;
+}
+
+.account-nav button {
+    color: var(--danger);
+    margin-right: auto;
+}
+
+.account-page__title {
+    font-weight: var(--font-weight-bold);
+    margin: 0 0 var(--space-4);
+}
+
+.account-alert {
+    padding: var(--space-3) var(--space-4);
+    border-radius: var(--radius-input);
+    margin-bottom: var(--space-4);
+    font-size: 0.9rem;
+}
+
+.account-alert--success {
+    background: color-mix(in srgb, var(--success) 12%, transparent);
+    color: var(--success);
+}
+
+.account-alert--error {
+    background: color-mix(in srgb, var(--danger) 12%, transparent);
+    color: var(--danger);
+}
+
+.account-form {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-card);
+    padding: var(--space-4);
+    max-width: 560px;
+    margin-bottom: var(--space-4);
+}
+
+.account-field-row {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+}
+
+.account-field {
+    margin-bottom: var(--space-4);
+    flex: 1;
+}
+
+.account-field label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: var(--font-weight-medium);
+    margin-bottom: var(--space-2);
+}
+
+.account-field input,
+.account-field select,
+.account-field textarea {
+    width: 100%;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-input);
+    padding: var(--space-3);
+    font-family: inherit;
+    background: var(--surface);
+    color: var(--text);
+}
+
+.account-field input:disabled,
+.account-field select:disabled {
+    background: var(--background);
+    color: var(--text-muted);
+}
+
+.account-field__hint {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+.account-field__error {
+    color: var(--danger);
+    font-size: 0.8rem;
+}
+
+.account-checkbox {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: 0.9rem;
+    margin-bottom: var(--space-4);
+}
+
+.account-btn-primary {
+    background: var(--primary);
+    color: #fff;
+    border: none;
+    border-radius: var(--radius-button);
+    padding: var(--space-3) var(--space-6);
+    font-weight: var(--font-weight-medium);
+    cursor: pointer;
+}
+
+.account-order-card {
+    display: block;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-card);
+    padding: var(--space-3);
+    margin-bottom: var(--space-2);
+    color: var(--text);
+}
+
+.account-order-card__row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    padding: var(--space-1) 0;
+}
+
+.account-order-card__row--muted {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+}
+
+.account-status-badge {
+    display: inline-block;
+    padding: 2px var(--space-2);
+    border-radius: var(--radius-badge);
+    font-size: 0.75rem;
+    background: var(--border);
+}
+
+.account-status-badge--paid,
+.account-status-badge--delivered {
+    background: color-mix(in srgb, var(--success) 15%, transparent);
+    color: var(--success);
+}
+
+.account-status-badge--pending_payment {
+    background: color-mix(in srgb, var(--warning) 15%, transparent);
+    color: var(--warning);
+}
+
+.account-status-badge--cancelled {
+    background: color-mix(in srgb, var(--danger) 15%, transparent);
+    color: var(--danger);
+}
+
+.account-empty {
+    text-align: center;
+    color: var(--text-muted);
+    padding: var(--space-12) 0;
+}
+
+.account-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-card);
+    padding: var(--space-4);
+    margin-bottom: var(--space-4);
+}
+
+.account-card h2 {
+    font-size: 1rem;
+    margin: 0 0 var(--space-3);
+}
+
+.account-order-item {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    padding: var(--space-2) 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.account-order-item--total {
+    font-weight: var(--font-weight-semibold);
+}
+
+.account-timeline {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+}
+
+.account-timeline li {
+    border-right: 2px solid var(--primary);
+    padding-right: var(--space-3);
+    font-size: 0.85rem;
+}
+
+.account-timeline span {
+    color: var(--text-muted);
+    margin-right: var(--space-2);
+}
+
+.account-back-link {
+    display: inline-block;
+    margin-bottom: var(--space-4);
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.account-order-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    margin-bottom: var(--space-4);
+}
+
+.account-page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-4);
+}
+
+.account-general-message {
+    color: var(--danger);
+    font-size: 0.85rem;
+    margin-bottom: var(--space-3);
+}
+
+.account-address-card {
+    position: relative;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-card);
+    padding: var(--space-4);
+    margin-bottom: var(--space-3);
+    font-size: 0.9rem;
+}
+
+.account-address-card p {
+    margin: var(--space-1) 0;
+    color: var(--text-muted);
+}
+
+.account-address-card__badge {
+    position: absolute;
+    top: var(--space-3);
+    left: var(--space-3);
+    background: var(--primary);
+    color: #fff;
+    font-size: 0.7rem;
+    padding: 2px var(--space-2);
+    border-radius: var(--radius-badge);
+}
+
+.account-table__link--danger {
+    background: none;
+    border: none;
+    color: var(--danger);
+    cursor: pointer;
+    font-size: 0.85rem;
+    padding: 0;
+    margin-top: var(--space-2);
+}
+
+/* ==========================================================================
+   MOBILE (360px - 430px)
+   تصمیم طراحی: Nav به‌صورت Tab افقی قابل Scroll بالای صفحه.
+   ========================================================================== */
+.account-content {
+    width: 100%;
+}
+
+.account-content .product-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-3);
+}
+
+/* ==========================================================================
+   DESKTOP (1280px - 1920px)
+   تصمیم طراحی: Nav به‌صورت Sidebar عمودی ثابت کنار محتوا.
+   ========================================================================== */
+@media (min-width: 1024px) {
+    .account-page {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: var(--space-8) var(--space-6);
+    }
+
+    .account-page {
+        display: flex;
+        gap: var(--space-8);
+        align-items: start;
+    }
+
+    .account-nav {
+        flex-direction: column;
+        width: 220px;
+        flex-shrink: 0;
+        border-bottom: none;
+        border-left: 1px solid var(--border);
+        padding-left: var(--space-4);
+        overflow-x: visible;
+    }
+
+    .account-nav a,
+    .account-nav button {
+        width: 100%;
+        text-align: right;
+    }
+
+    .account-nav button {
+        margin-right: 0;
+        margin-top: var(--space-4);
+    }
+
+    .account-field-row {
+        flex-direction: row;
+    }
+
+    .account-content .product-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: var(--space-6);
+    }
+}

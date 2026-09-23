@@ -1,0 +1,46 @@
+/*
+ * reveal.css — انیمیشن ظاهرشدن محتوا هنگام Scroll (شبیه سایت‌های برند مثل
+ * Mercedes-Benz). با IntersectionObserver در reveal.js کنترل می‌شود؛
+ * اینجا فقط حالت شروع/پایان و Transition تعریف شده.
+ */
+
+.reveal-on-scroll {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1), transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.reveal-on-scroll.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* هر کارت محصول داخل یک بخش Reveal‌شده، با کمی تاخیر پشت‌سرهم ظاهر می‌شود */
+.reveal-on-scroll .product-card {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 0.55s ease, transform 0.55s ease;
+}
+
+.reveal-on-scroll.is-visible .product-card {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.reveal-on-scroll.is-visible .product-card:nth-child(2) { transition-delay: 0.07s; }
+.reveal-on-scroll.is-visible .product-card:nth-child(3) { transition-delay: 0.14s; }
+.reveal-on-scroll.is-visible .product-card:nth-child(4) { transition-delay: 0.21s; }
+.reveal-on-scroll.is-visible .product-card:nth-child(5) { transition-delay: 0.28s; }
+.reveal-on-scroll.is-visible .product-card:nth-child(6) { transition-delay: 0.35s; }
+.reveal-on-scroll.is-visible .product-card:nth-child(7) { transition-delay: 0.42s; }
+.reveal-on-scroll.is-visible .product-card:nth-child(8) { transition-delay: 0.49s; }
+
+/* بخش ۲۹: کاربرانی که حرکت را در تنظیمات سیستم خاموش کرده‌اند، نباید انیمیشن ببینند */
+@media (prefers-reduced-motion: reduce) {
+    .reveal-on-scroll,
+    .reveal-on-scroll .product-card {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+    }
+}

@@ -1,0 +1,360 @@
+.checkout-page {
+    padding: 0 var(--space-4) var(--space-12);
+}
+
+/* نوار پیشرفت — بخش ۲۹.۱ بند ۱: وضوح وضعیت سیستم */
+.checkout-progress {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    margin-bottom: var(--space-8);
+}
+
+.checkout-progress__step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-1);
+    color: var(--text-muted);
+}
+
+.checkout-progress__circle {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--border);
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: var(--font-weight-semibold);
+    font-size: 0.85rem;
+    transition: background var(--motion-fast), color var(--motion-fast);
+}
+
+.checkout-progress__step.is-active .checkout-progress__circle {
+    background: var(--primary);
+    color: #fff;
+}
+
+.checkout-progress__step.is-done .checkout-progress__circle {
+    background: var(--success);
+    color: #fff;
+}
+
+.checkout-progress__step.is-active .checkout-progress__label {
+    color: var(--text);
+    font-weight: var(--font-weight-medium);
+}
+
+.checkout-progress__label {
+    font-size: 0.75rem;
+}
+
+.checkout-progress__line {
+    width: 40px;
+    height: 1px;
+    background: var(--border);
+}
+
+.checkout-step {
+    display: none;
+}
+
+.checkout-step.is-active {
+    display: block;
+    animation: fadeIn var(--motion-base) var(--motion-easing);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.checkout-step__title {
+    font-weight: var(--font-weight-semibold);
+    margin: 0 0 var(--space-4);
+}
+
+.checkout-general-error {
+    background: color-mix(in srgb, var(--danger) 10%, transparent);
+    color: var(--danger);
+    border-radius: var(--radius-input);
+    padding: var(--space-3) var(--space-4);
+    margin-bottom: var(--space-4);
+    font-size: 0.9rem;
+}
+
+.checkout-address-list,
+.checkout-shipping-option {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    margin-bottom: var(--space-4);
+}
+
+.checkout-address-option,
+.checkout-shipping-option {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-3);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-card);
+    padding: var(--space-4);
+    cursor: pointer;
+}
+
+.checkout-address-option:has(input:checked),
+.checkout-shipping-option:has(input:checked) {
+    border-color: var(--primary);
+}
+
+.checkout-address-option__body,
+.checkout-shipping-option__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+.checkout-address-option__body strong,
+.checkout-shipping-option__body strong {
+    color: var(--text);
+}
+
+.checkout-field-row {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+}
+
+.checkout-field {
+    margin-bottom: var(--space-4);
+}
+
+.checkout-field label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: var(--font-weight-medium);
+    margin-bottom: var(--space-2);
+}
+
+.checkout-field input,
+.checkout-field select,
+.checkout-field textarea {
+    width: 100%;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-input);
+    padding: var(--space-3);
+    font-family: inherit;
+    background: var(--surface);
+    color: var(--text);
+}
+
+.checkout-field select:disabled {
+    background: var(--background);
+    color: var(--text-muted);
+}
+
+.checkout-field-error {
+    color: var(--danger);
+    font-size: 0.8rem;
+    margin-top: var(--space-1);
+}
+
+.checkout-step__actions {
+    display: flex;
+    gap: var(--space-3);
+    margin-top: var(--space-4);
+}
+
+.checkout-btn-next,
+.checkout-btn-pay {
+    flex: 1;
+    height: 48px;
+    background: var(--primary);
+    color: #fff;
+    border: none;
+    border-radius: var(--radius-button);
+    font-weight: var(--font-weight-semibold);
+    cursor: pointer;
+}
+
+.checkout-btn-back {
+    flex: 1;
+    height: 48px;
+    background: var(--background);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-button);
+    cursor: pointer;
+}
+
+.checkout-btn-pay:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.checkout-review-items {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    margin-bottom: var(--space-4);
+}
+
+.checkout-review-item {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    padding: var(--space-2) 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.checkout-coupon {
+    display: flex;
+    gap: var(--space-2);
+    margin: var(--space-4) 0 var(--space-2);
+}
+
+.checkout-payment-method {
+    margin: var(--space-6) 0;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-card);
+    padding: var(--space-4);
+}
+
+.checkout-payment-method__title {
+    font-size: 0.95rem;
+    margin: 0 0 var(--space-3);
+}
+
+.checkout-payment-method__option {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2) 0;
+    cursor: pointer;
+}
+
+.checkout-payment-method__option.is-disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.checkout-payment-method__option small {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    display: block;
+}
+
+.checkout-coupon input {
+    flex: 1;
+    height: 44px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-input);
+    padding: 0 var(--space-3);
+}
+
+.checkout-coupon button {
+    height: 44px;
+    padding: 0 var(--space-4);
+    border: 1px solid var(--primary);
+    background: var(--surface);
+    color: var(--primary);
+    border-radius: var(--radius-button);
+    cursor: pointer;
+    font-weight: var(--font-weight-medium);
+}
+
+.checkout-coupon__message {
+    font-size: 0.85rem;
+    margin-bottom: var(--space-4);
+}
+
+.checkout-summary {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-card);
+    padding: var(--space-4);
+}
+
+.checkout-summary__title {
+    font-weight: var(--font-weight-semibold);
+    margin: 0 0 var(--space-4);
+    font-size: 0.95rem;
+}
+
+.checkout-summary__row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    padding: var(--space-2) 0;
+}
+
+.checkout-summary__row--muted {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+}
+
+.checkout-summary__row--total {
+    font-weight: var(--font-weight-bold);
+}
+
+.checkout-summary__divider {
+    border-top: 1px solid var(--border);
+    margin: var(--space-2) 0;
+}
+
+/* ==========================================================================
+   MOBILE (360px - 430px)
+   تصمیم طراحی: تک‌ستونه؛ خلاصه سفارش زیر فرم (نه کنار آن) چون فضای افقی
+   کافی برای نمایش هم‌زمان نیست (بخش ۲۰.۱ جدول).
+   ========================================================================== */
+.checkout-page__layout {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+}
+
+/* ==========================================================================
+   DESKTOP (1280px - 1920px)
+   تصمیم طراحی: دوستونه — فرم سمت راست، خلاصه سفارش Sticky سمت چپ، همیشه
+   در معرض دید کاربر در هر سه مرحله (بخش ۲۰.۱ جدول: "می‌تواند دوستونه باشد").
+   ========================================================================== */
+@media (min-width: 1024px) {
+    .checkout-page {
+        max-width: 960px;
+        margin: 0 auto;
+        padding: 0 var(--space-6) var(--space-16);
+    }
+
+    .checkout-page__layout {
+        flex-direction: row-reverse;
+        align-items: start;
+        gap: var(--space-8);
+    }
+
+    .checkout-page__form {
+        flex: 1;
+    }
+
+    .checkout-summary {
+        width: 320px;
+        flex-shrink: 0;
+        position: sticky;
+        top: calc(var(--space-8) + 80px);
+    }
+
+    .checkout-field-row {
+        flex-direction: row;
+    }
+
+    .checkout-progress {
+        gap: var(--space-4);
+    }
+
+    .checkout-progress__line {
+        width: 80px;
+    }
+}

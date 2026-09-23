@@ -1,0 +1,176 @@
+/*
+ * صفحات Auth (Login/Register) — بخش ۲۰.۱
+ * این صفحه Markup مشترک دارد (تفاوت ساختاری پیچیده‌ای مثل Navigation/Filter نیست)
+ * پس طبق بند «الف» بخش ۲۰.۱، CSS موبایل و دسکتاپ در بلوک‌های کاملاً مجزا و
+ * مستند نوشته می‌شود، نه قاطی در یک Selector مبهم.
+ *
+ * ⚠️ رفع باگ: قبلاً این فایل تنها جای کل پروژه بود که موبایل را با
+ * max-width:767px و دسکتاپ را با min-width:1280px تعریف کرده بود — بین
+ * ۷۶۸ تا ۱۲۷۹px (تبلت، دسکتاپ نیمه‌باز) هیچ‌کدام از این دو اعمال نمی‌شد
+ * (نه بهینه‌سازی لمسی موبایل، نه چیدمان دوستونه دسکتاپ). بازنویسی شد
+ * Mobile-First (بدون Media Query = پیش‌فرض همه‌جا) با یک شکست دسکتاپ در
+ * min-width:1024px — دقیقاً همان الگویی که بقیه فایل‌های CSS پروژه دارند.
+ */
+
+.auth-page {
+    min-height: 100vh;
+    display: flex;
+    background: var(--background);
+    align-items: flex-start;
+    padding: var(--space-6) var(--space-4);
+}
+
+.auth-card {
+    background: var(--surface);
+    border-radius: var(--radius-card);
+    padding: var(--space-6);
+    width: 100%;
+    max-width: 100%;
+    box-shadow: none;
+}
+
+.auth-title {
+    font-weight: var(--font-weight-bold);
+    font-size: 1.5rem;
+    margin: 0 0 var(--space-2);
+}
+
+.auth-subtitle {
+    color: var(--text-muted);
+    margin: 0 0 var(--space-6);
+    font-size: 0.9rem;
+}
+
+.auth-field {
+    margin-bottom: var(--space-4);
+}
+
+.auth-field label {
+    display: block;
+    font-weight: var(--font-weight-medium);
+    margin-bottom: var(--space-2);
+    font-size: 0.9rem;
+}
+
+.auth-field input {
+    width: 100%;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-input);
+    padding: 0 var(--space-4);
+    background: var(--surface);
+    color: var(--text);
+    transition: border-color var(--motion-fast) var(--motion-easing);
+    height: 48px; /* Touch Target بزرگ‌تر — بخش ۲۹ */
+    font-size: 16px; /* جلوگیری از Zoom خودکار iOS روی فوکوس Input */
+}
+
+.auth-field input:focus {
+    border-color: var(--primary);
+}
+
+.auth-field-error {
+    color: var(--danger);
+    font-size: 0.8rem;
+    margin-top: var(--space-1);
+}
+
+.auth-submit {
+    width: 100%;
+    background: var(--primary);
+    color: #fff;
+    border: none;
+    border-radius: var(--radius-button);
+    font-weight: var(--font-weight-semibold);
+    cursor: pointer;
+    transition: background var(--motion-fast) var(--motion-easing), opacity var(--motion-fast);
+    height: 48px;
+    font-size: 1rem;
+}
+
+.auth-submit:hover {
+    background: var(--primary-hover);
+}
+
+.auth-submit:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.auth-footer-link {
+    text-align: center;
+    margin-top: var(--space-6);
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+.auth-footer-link a {
+    color: var(--primary);
+    font-weight: var(--font-weight-medium);
+}
+
+.auth-general-error {
+    background: color-mix(in srgb, var(--danger) 10%, transparent);
+    color: var(--danger);
+    border-radius: var(--radius-input);
+    padding: var(--space-3) var(--space-4);
+    margin-bottom: var(--space-4);
+    font-size: 0.9rem;
+    display: none;
+}
+
+/* پنل تزئینی برند — فقط در دسکتاپ نمایش داده می‌شود (تعریف کامل در بلوک دسکتاپ) */
+.auth-brand-panel {
+    display: none;
+}
+
+/* ==========================================================================
+   DESKTOP (1024px+) — همسو با شکست دسکتاپ بقیه صفحات پروژه
+   تصمیم طراحی: کارت در وسط با عرض ثابت + پنل برند در سمت راست (چون فضای
+   خالی دسکتاپ زیاد است و می‌توان از آن برای اعتمادسازی برند استفاده کرد؛
+   چیزی که در موبایل بی‌معنا و اتلاف فضا است).
+   ========================================================================== */
+@media (min-width: 1024px) {
+    .auth-page {
+        align-items: center;
+        justify-content: center;
+        gap: var(--space-16);
+        padding: var(--space-8);
+    }
+
+    .auth-card {
+        max-width: 420px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+    }
+
+    .auth-field input {
+        height: 44px;
+        font-size: 0.95rem;
+    }
+
+    .auth-submit {
+        height: 44px;
+        font-size: 0.95rem;
+    }
+
+    .auth-brand-panel {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        width: 420px;
+        height: 480px;
+        background: linear-gradient(135deg, var(--primary), var(--primary-hover));
+        border-radius: var(--radius-card);
+        color: #fff;
+        padding: var(--space-12);
+    }
+
+    .auth-brand-panel h2 {
+        font-size: 1.75rem;
+        margin-bottom: var(--space-4);
+    }
+
+    .auth-brand-panel p {
+        opacity: 0.9;
+        line-height: 1.8;
+    }
+}
