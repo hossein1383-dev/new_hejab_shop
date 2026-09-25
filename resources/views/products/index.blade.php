@@ -38,6 +38,12 @@
 
                     {{-- مرتب‌سازی دسکتاپ (در موبایل داخل همان Bottom Sheet فیلتر است) --}}
                     <form method="get" class="products-page__sort-desktop" data-sort-form>
+                        <input type="hidden" name="q" value="{{ $appliedFilters['q'] }}">
+                        <input type="hidden" name="min_price" value="{{ $appliedFilters['min_price'] }}">
+                        <input type="hidden" name="max_price" value="{{ $appliedFilters['max_price'] }}">
+                        @foreach($appliedFilters['brand_ids'] as $brandId)
+                            <input type="hidden" name="brands[]" value="{{ $brandId }}">
+                        @endforeach
                         <select name="sort" data-sort-select>
                             <option value="newest" @selected($appliedFilters['sort'] === 'newest')>جدیدترین</option>
                             <option value="cheapest" @selected($appliedFilters['sort'] === 'cheapest')>ارزان‌ترین</option>

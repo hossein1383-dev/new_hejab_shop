@@ -44,7 +44,13 @@ class AppServiceProvider extends ServiceProvider
         $smsirConfigured = ($smsConfig['driver'] ?? null) === 'smsir' && ($smsConfig['otp_template_id'] ?? null);
 
         if ($smsirConfigured) {
-            $this->app->bind(SmsGatewayContract::class, fn () => new SmsIrGateway((int) $smsConfig['otp_template_id']));
+            $this->app->bind(SmsGatewayContract::class, fn () => new SmsIrGateway(
+                (int) $smsConfig['otp_template_id'],
+                ($smsConfig['new_order_template_id'] ?? null) ? (int) $smsConfig['new_order_template_id'] : null,
+                ($smsConfig['order_confirmation_template_id'] ?? null) ? (int) $smsConfig['order_confirmation_template_id'] : null,
+                ($smsConfig['parcel_shipped_template_id'] ?? null) ? (int) $smsConfig['parcel_shipped_template_id'] : null,
+                ($smsConfig['coupon_gift_template_id'] ?? null) ? (int) $smsConfig['coupon_gift_template_id'] : null,
+            ));
         } else {
             $this->app->bind(SmsGatewayContract::class, FakeSmsGateway::class);
         }
@@ -79,6 +85,12 @@ class AppServiceProvider extends ServiceProvider
         // بخش ۲۲: استفاده راحت در Blade — مثال: {{ jalali($order->created_at) }}
         \Illuminate\Support\Facades\Blade::directive('jalali', function ($expression) {
             return "<?php echo \\App\\Support\\JalaliDate::format({$expression}); ?>";
+        });
+
+        // بخش ۵۷: اسم فروشگاه در هدر (موبایل/دسکتاپ) — از همان تنظیم
+        // site_name که برای فوتر هم استفاده می‌شود، با همان Cache.
+        View::composer(['components.header.header-mobile', 'components.header.header-desktop'], function ($view) {
+            $view->with('siteName', Cache::remember('site-name', now()->addMinutes(30), fn () => app(SettingService::class)->all()['site_name'] ?? config('app.name')));
         });
 
         // فوتر در همه صفحات فروشگاه یکسان است، پس به‌جای پاس‌دادن دستی از هر

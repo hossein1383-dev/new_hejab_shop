@@ -57,6 +57,9 @@ class SettingController extends Controller
 
         $this->settingService->setMany($data);
 
+        \Illuminate\Support\Facades\Cache::forget('footer.data');
+        \Illuminate\Support\Facades\Cache::forget('site-name');
+
         return back()->with('order_success', 'تنظیمات ذخیره شد.');
     }
 }

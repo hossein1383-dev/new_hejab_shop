@@ -63,4 +63,19 @@ class AdminDashboardTest extends TestCase
 
         $this->assertEquals(0, $response->viewData('stats')['low_stock_count']);
     }
+
+    public function test_dashboard_stat_cards_link_to_correct_filtered_pages(): void
+    {
+        $this->withoutVite();
+        $staff = $this->staffUser();
+
+        $response = $this->actingAs($staff)->get('/admin/dashboard');
+
+        $response->assertOk()
+            ->assertSee(route('admin.orders.index', ['date' => 'today']), false)
+            ->assertSee(route('admin.reports.index'), false)
+            ->assertSee(route('admin.users.index'), false)
+            ->assertSee(route('admin.inventory.index', ['low_stock' => 1]), false)
+            ->assertSee(route('admin.reviews.index'), false);
+    }
 }

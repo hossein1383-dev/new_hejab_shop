@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Contracts\SmsGatewayContract;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Coupon\StoreCouponRequest;
 use App\Models\Coupon;
+use App\Models\User;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -12,6 +14,9 @@ use Illuminate\Support\Str;
 
 class CouponController extends Controller
 {
+    public function __construct(private readonly SmsGatewayContract $smsGateway)
+    {
+    }
     public function index(Request $request): View
     {
         $this->authorize('viewAny', Coupon::class);
@@ -67,5 +72,32 @@ class CouponController extends Controller
         $coupon->delete();
 
         return redirect()->route('admin.coupons.index')->with('order_success', 'کد تخفیف حذف شد.');
+    }
+
+    /**
+     * ارسال پیامک هدیه این کد تخفیف به همه مشتریانی که شماره تلفن دارند —
+     * بخش ۵۶. هیچ‌وقت کل عملیات را با یک خطای تکی متوقف نمی‌کند.
+     */
+    public function sendGiftSms(Coupon $coupon): RedirectResponse
+    {
+        $this->authorize('update', $coupon);
+
+        $customers = User::whereNotNull('phone')->whereDoesntHave('roles')->get();
+        $sentCount = 0;
+
+        foreach ($customers as $customer) {
+            try {
+                $this->smsGateway->sendCouponGift($customer->phone, $customer->smsDisplayName(), $coupon->code);
+                $sentCount++;
+            } catch (\Throwable $e) {
+                \Illuminate\Support\Facades\Log::warning('ارسال پیامک هدیه تخفیف ناموفق بود', [
+                    'coupon_id' => $coupon->id,
+                    'user_id' => $customer->id,
+                    'exception' => $e->getMessage(),
+                ]);
+            }
+        }
+
+        return back()->with('order_success', "پیامک برای {$sentCount} مشتری از {$customers->count()} نفر ارسال شد.");
     }
 }

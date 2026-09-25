@@ -171,4 +171,18 @@ class ProductPagesTest extends TestCase
         $response->assertOk();
         $this->assertStringNotContainsString('fill="#F59E0B"', $response->getContent());
     }
+
+    public function test_product_page_shows_total_quantity_across_variants(): void
+    {
+        $this->withoutVite();
+        $product = Product::factory()->create(['status' => 'active']);
+        $variant1 = \App\Models\ProductVariant::factory()->create(['product_id' => $product->id]);
+        $variant2 = \App\Models\ProductVariant::factory()->create(['product_id' => $product->id]);
+        app(\App\Services\InventoryService::class)->recordMovement($product, $variant1, 'purchase', 10);
+        app(\App\Services\InventoryService::class)->recordMovement($product, $variant2, 'purchase', 15);
+
+        $response = $this->get("/products/{$product->slug}");
+
+        $response->assertOk()->assertSee('موجودی کل: 25 عدد');
+    }
 }

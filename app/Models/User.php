@@ -37,6 +37,18 @@ class User extends Authenticatable
         return $this->belongsToMany(Role::class);
     }
 
+    /**
+     * بخش ۵۵: برای پیامک‌های مشتری — اگر کاربر هنوز اسمش را از حالت پیش‌فرض
+     * («کاربر » + ۴ رقم آخر شماره، طبق OtpService::verify) عوض نکرده، به‌جای
+     * آن اسم بی‌معنی، شماره تلفنش استفاده می‌شود.
+     */
+    public function smsDisplayName(): string
+    {
+        $defaultName = 'کاربر ' . str($this->phone)->substr(-4);
+
+        return $this->name === $defaultName ? $this->phone : $this->name;
+    }
+
     public function activeCart(): \Illuminate\Database\Eloquent\Relations\HasOne
     {
         return $this->hasOne(Cart::class)->where('status', 'active')->latestOfMany();

@@ -41,6 +41,26 @@ class DeployController extends Controller
 
         return '<pre style="direction:ltr; text-align:left;">' . e(Artisan::output()) . '</pre>';
     }
+    
+    /**
+     * php artisan db:seed — بخش ۶۱. مقادیر اولیه سایت (نقش‌ها/دسترسی‌ها و
+     * هرچه در DatabaseSeeder باشد) را بارگذاری می‌کند. بدون این، اصلاً
+     * نمی‌توانید به‌عنوان سوپر ادمین وارد پنل شوید. با ?class=... می‌توانید
+     * فقط یک Seeder خاص را هم اجرا کنید (مثلاً فقط RolePermissionSeeder).
+     */
+    public function seed(Request $request)
+    {
+        $this->checkSecret($request);
+
+        $options = ['--force' => true];
+        if ($request->query('class')) {
+            $options['--class'] = $request->query('class');
+        }
+
+        Artisan::call('db:seed', $options);
+
+        return '<pre style="direction:ltr; text-align:left;">' . e(Artisan::output()) . '</pre>';
+    }
 
     /** php artisan config:clear + cache:clear + view:clear */
     public function clearCache(Request $request)
@@ -91,5 +111,17 @@ class DeployController extends Controller
         $status = $process->isSuccessful() ? '✅ موفق' : '❌ ناموفق (کد خروج: ' . $process->getExitCode() . ')';
 
         return '<pre style="direction:ltr; text-align:left; white-space:pre-wrap;">' . $status . "\n\n" . e($output) . '</pre>';
+    }
+    
+     /**
+     * php artisan storage:link — بخش ۶۳. بدون این، هیچ عکس آپلودی
+     * (بنر، تصویر محصول و...) از storage/app/public قابل‌دسترسی نیست.
+     */
+    public function storageLink(Request $request)
+    {
+        $this->checkSecret($request);
+        Artisan::call('storage:link');
+
+        return '<pre style="direction:ltr; text-align:left;">' . e(Artisan::output()) . '</pre>';
     }
 }

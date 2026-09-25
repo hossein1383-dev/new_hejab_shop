@@ -15,23 +15,12 @@ class InventoryService
      * از lockForUpdate استفاده می‌شود تا در برابر Race Condition (دو درخواست هم‌زمان)
      * محافظت شود (بخش ۸ و ۳۵).
      */
-    public function recordMovement(
-        Product $product,
-        ?ProductVariant $variant,
-        string $type,
-        int $quantity,
-        ?string $reference = null,
-        ?int $userId = null,
-        ?string $note = null,
-    ): InventoryMovement {
+    public function recordMovement(Product $product, ?ProductVariant $variant, string $type, int $quantity, ?string $reference = null, ?int $userId = null, ?string $note = null): InventoryMovement
+    {
         return DB::transaction(function () use ($product, $variant, $type, $quantity, $reference, $userId, $note) {
-            $inventory = Inventory::query()
-                ->where('product_id', $product->id)
-                ->where('product_variant_id', $variant?->id)
-                ->lockForUpdate()
-                ->first();
+            $inventory = Inventory::query()->where('product_id', $product->id)->where('product_variant_id', $variant?->id)->lockForUpdate()->first();
 
-            if (! $inventory) {
+            if (!$inventory) {
                 $inventory = Inventory::create([
                     'product_id' => $product->id,
                     'product_variant_id' => $variant?->id,
@@ -48,6 +37,13 @@ class InventoryService
 
             $inventory->update(['quantity' => $newQuantity]);
 
+            // بخش ۶۰: اگر این تغییر مربوط به یک واریانت بود، موجودی «پایه»
+            // (product_variant_id=null) هم با مجموع کل هم‌مقدار می‌شود — چون
+            // صفحه محصول فقط موجودی پایه را برای «موجود/ناموجود» چک می‌کند.
+            if ($variant) {
+                Inventory::updateOrCreate(['product_id' => $product->id, 'product_variant_id' => null], ['quantity' => $this->totalAvailableQuantity($product)]);
+            }
+
             return InventoryMovement::create([
                 'product_id' => $product->id,
                 'product_variant_id' => $variant?->id,
@@ -63,12 +59,22 @@ class InventoryService
     /** موجودی قابل فروش فعلی (فیزیکی − رزروشده). */
     public function availableQuantity(Product $product, ?ProductVariant $variant): int
     {
-        $inventory = Inventory::query()
-            ->where('product_id', $product->id)
-            ->where('product_variant_id', $variant?->id)
-            ->first();
+        $inventory = Inventory::query()->where('product_id', $product->id)->where('product_variant_id', $variant?->id)->first();
 
         return $inventory?->availableQuantity() ?? 0;
+    }
+
+    /**
+     * بخش ۶۰: مجموع کل موجودی محصول — جمع تمام واریانت‌ها با هم (اگر
+     * واریانت نداشته باشد، همان یک ردیف پایه). همیشه Live محاسبه می‌شود،
+     * هیچ عدد جداگانه‌ای ذخیره نمی‌شود — پس هروقت واریانتی اضافه/کم یا
+     * موجودی‌اش تغییر کند، این عدد خودکار همراهش عوض می‌شود.
+     */
+    public function totalAvailableQuantity(Product $product): int
+    {
+        $hasVariants = ProductVariant::where('product_id', $product->id)->exists();
+
+        return Inventory::query()->where('product_id', $product->id)->when($hasVariants, fn($q) => $q->whereNotNull('product_variant_id'))->get()->sum(fn(Inventory $inventory) => $inventory->availableQuantity());
     }
 
     /**
@@ -78,13 +84,9 @@ class InventoryService
     public function reserve(Product $product, ?ProductVariant $variant, int $quantity): void
     {
         DB::transaction(function () use ($product, $variant, $quantity) {
-            $inventory = Inventory::query()
-                ->where('product_id', $product->id)
-                ->where('product_variant_id', $variant?->id)
-                ->lockForUpdate()
-                ->first();
+            $inventory = Inventory::query()->where('product_id', $product->id)->where('product_variant_id', $variant?->id)->lockForUpdate()->first();
 
-            if (! $inventory || $inventory->availableQuantity() < $quantity) {
+            if (!$inventory || $inventory->availableQuantity() < $quantity) {
                 throw new \DomainException('موجودی کافی برای رزرو وجود ندارد.');
             }
 
@@ -96,11 +98,7 @@ class InventoryService
     public function release(Product $product, ?ProductVariant $variant, int $quantity): void
     {
         DB::transaction(function () use ($product, $variant, $quantity) {
-            $inventory = Inventory::query()
-                ->where('product_id', $product->id)
-                ->where('product_variant_id', $variant?->id)
-                ->lockForUpdate()
-                ->first();
+            $inventory = Inventory::query()->where('product_id', $product->id)->where('product_variant_id', $variant?->id)->lockForUpdate()->first();
 
             if ($inventory) {
                 $inventory->update([
@@ -118,11 +116,7 @@ class InventoryService
     public function confirmReservedSale(Product $product, ?ProductVariant $variant, int $quantity, ?string $reference = null): void
     {
         DB::transaction(function () use ($product, $variant, $quantity, $reference) {
-            $inventory = Inventory::query()
-                ->where('product_id', $product->id)
-                ->where('product_variant_id', $variant?->id)
-                ->lockForUpdate()
-                ->first();
+            $inventory = Inventory::query()->where('product_id', $product->id)->where('product_variant_id', $variant?->id)->lockForUpdate()->first();
 
             if ($inventory) {
                 $inventory->update([

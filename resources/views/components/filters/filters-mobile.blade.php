@@ -18,6 +18,7 @@
     </div>
 
     <form method="get" class="filters-mobile__form">
+    <input type="hidden" name="q" value="{{ $appliedFilters['q'] }}">
         <div class="filters-mobile__section">
             <h3>مرتب‌سازی</h3>
             <select name="sort">

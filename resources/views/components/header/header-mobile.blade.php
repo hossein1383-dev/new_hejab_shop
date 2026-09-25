@@ -11,7 +11,7 @@
         </svg>
     </button>
 
-    <a href="{{ url('/') }}" class="header-mobile__logo">فروشگاه</a>
+<a href="{{ url('/') }}" class="header-mobile__logo">{{ $siteName }}</a>
 
     <div class="header-mobile__actions">
         <button type="button" class="header-mobile__icon-btn" aria-label="جستجو" data-search-toggle>
@@ -37,7 +37,7 @@
 {{-- Bottom Sheet برای جستجو (بخش ۲۹: Mobile Search) --}}
 <div class="header-mobile__search-sheet" data-search-sheet hidden>
     <form action="{{ url('/products') }}" method="get" class="header-mobile__search-form">
-        <input type="search" name="q" placeholder="جستجوی محصول..." autofocus>
+        <input type="search" name="q" value="{{ request('q') }}" placeholder="جستجوی محصول..." autofocus>
         <button type="button" data-search-close aria-label="بستن">✕</button>
     </form>
 </div>

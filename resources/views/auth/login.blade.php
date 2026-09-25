@@ -8,12 +8,12 @@
 
 @section('content')
 <div class="auth-page">
-    <div class="auth-brand-panel">
-        <h2>به فروشگاه ما خوش آمدید</h2>
-        <p>فقط با شماره موبایل، بدون نیاز به رمز عبور، وارد شوید.</p>
+    <div class="auth-image-panel">
+        <img src="{{ asset('images/auth-illustration.png') }}" alt="خرید آسان از فروشگاه" loading="eager">
     </div>
 
-    <div class="auth-card">
+    <div class="auth-form-panel">
+        <div class="auth-card">
         <h1 class="auth-title">ورود / ثبت‌نام</h1>
         <p class="auth-subtitle">شماره موبایل خود را وارد کنید تا کد ورود برایتان پیامک شود.</p>
 
@@ -47,6 +47,7 @@
                 ارسال دوباره کد (<span data-resend-timer>۶۰</span>)
             </button>
         </form>
+        </div>
     </div>
 </div>
 @endsection

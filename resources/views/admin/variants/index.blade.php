@@ -3,6 +3,7 @@
 @section('content')
 <a href="{{ route('admin.products.index') }}" class="admin-back-link">← بازگشت به محصولات</a>
 <h1 class="admin-page-title">Variant های «{{ $product->name }}»</h1>
+<p class="admin-help-text">مجموع کل موجودی (همه واریانت‌ها): <strong>{{ number_format($totalAvailableQuantity) }}</strong> عدد</p>
 
 <div class="admin-card">
     <h2>Variant های فعلی ({{ $product->variants->count() }})</h2>

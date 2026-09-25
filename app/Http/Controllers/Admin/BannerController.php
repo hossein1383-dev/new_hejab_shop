@@ -53,13 +53,21 @@ class BannerController extends Controller
     {
         $data = $request->validated();
 
+        // بخش ۶۴: قبل از جایگزینی، عکس قدیمی حذف شود — وگرنه فایل‌های
+        // بی‌استفاده روی هاست جمع می‌شوند و فضا را پر می‌کنند.
         if ($request->hasFile('image')) {
+            if ($banner->image) {
+                \Illuminate\Support\Facades\Storage::disk('public')->delete($banner->image);
+            }
             $data['image'] = $request->file('image')->store('banners', 'public');
         } else {
             unset($data['image']);
         }
 
         if ($request->hasFile('image_mobile')) {
+            if ($banner->image_mobile) {
+                \Illuminate\Support\Facades\Storage::disk('public')->delete($banner->image_mobile);
+            }
             $data['image_mobile'] = $request->file('image_mobile')->store('banners', 'public');
         } else {
             unset($data['image_mobile']);
@@ -73,6 +81,14 @@ class BannerController extends Controller
     public function destroy(Banner $banner): RedirectResponse
     {
         abort_unless(auth()->user()->hasPermission('settings.manage'), 403);
+
+        // بخش ۶۴: هنگام حذف بنر، فایل‌های عکسش هم حذف شوند
+        if ($banner->image) {
+            \Illuminate\Support\Facades\Storage::disk('public')->delete($banner->image);
+        }
+        if ($banner->image_mobile) {
+            \Illuminate\Support\Facades\Storage::disk('public')->delete($banner->image_mobile);
+        }
 
         $banner->delete();
 

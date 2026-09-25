@@ -25,7 +25,25 @@ document.querySelector('[data-menu-close]')?.addEventListener('click', () => tog
 document.querySelector('[data-menu-overlay]')?.addEventListener('click', () => toggleDrawer(false));
 
 document.querySelector('[data-search-toggle]')?.addEventListener('click', () => toggleSearchSheet(true));
-document.querySelector('[data-search-close]')?.addEventListener('click', () => toggleSearchSheet(false));
+document.querySelector('[data-search-close]')?.addEventListener('click', () => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.has('q') && params.get('q')) {
+        params.delete('q');
+        window.location.href = window.location.pathname + (params.toString() ? '?' + params.toString() : '');
+        return;
+    }
+    toggleSearchSheet(false);
+});
+
+// ضربدر داخلی خودِ مرورگر (type="search") — وقتی کاربر متن را پاک کند،
+// همان لحظه فیلتر جستجو هم برداشته می‌شود، نه فقط متن داخل باکس.
+document.querySelectorAll('input[type="search"][name="q"]').forEach((input) => {
+    input.addEventListener('search', () => {
+        if (input.value === '') {
+            input.form?.submit();
+        }
+    });
+});
 
 // Shadow ظریف هنگام Scroll (بخش ۲۴)
 const headers = document.querySelectorAll('.header-mobile, .header-desktop');

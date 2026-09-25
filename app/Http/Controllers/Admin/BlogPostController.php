@@ -56,6 +56,9 @@ class BlogPostController extends Controller
         $data = $request->validated();
 
         if ($request->hasFile('featured_image')) {
+            if ($blog_post->featured_image) {
+                \Illuminate\Support\Facades\Storage::disk('public')->delete($blog_post->featured_image);
+            }
             $data['featured_image'] = $request->file('featured_image')->store('blog', 'public');
         } else {
             unset($data['featured_image']);
@@ -73,6 +76,10 @@ class BlogPostController extends Controller
     public function destroy(BlogPost $blog_post): RedirectResponse
     {
         abort_unless(auth()->user()->hasPermission('settings.manage'), 403);
+
+        if ($blog_post->featured_image) {
+            \Illuminate\Support\Facades\Storage::disk('public')->delete($blog_post->featured_image);
+        }
 
         $blog_post->delete();
 

@@ -129,4 +129,49 @@ class AdminProductPageTest extends TestCase
 
         $this->actingAs($user)->delete("/admin/products/{$product->id}")->assertStatus(403);
     }
+
+    public function test_staff_can_delete_a_single_product_image(): void
+    {
+        $staff = $this->staffUser();
+        $product = Product::factory()->create();
+        \Illuminate\Support\Facades\Storage::fake('public');
+        $image = $product->images()->create([
+            'path' => 'products/test-image.jpg',
+            'is_thumbnail' => true,
+            'sort_order' => 0,
+        ]);
+        \Illuminate\Support\Facades\Storage::disk('public')->put('products/test-image.jpg', 'fake-content');
+
+        $response = $this->actingAs($staff)->delete("/admin/product-images/{$image->id}");
+
+        $response->assertRedirect();
+        $this->assertDatabaseMissing('product_images', ['id' => $image->id]);
+        \Illuminate\Support\Facades\Storage::disk('public')->assertMissing('products/test-image.jpg');
+    }
+
+    public function test_deleting_thumbnail_image_promotes_next_image(): void
+    {
+        $staff = $this->staffUser();
+        $product = Product::factory()->create();
+        \Illuminate\Support\Facades\Storage::fake('public');
+        $thumbnail = $product->images()->create(['path' => 'products/a.jpg', 'is_thumbnail' => true, 'sort_order' => 0]);
+        $second = $product->images()->create(['path' => 'products/b.jpg', 'is_thumbnail' => false, 'sort_order' => 1]);
+
+        $this->actingAs($staff)->delete("/admin/product-images/{$thumbnail->id}");
+
+        $this->assertTrue($second->fresh()->is_thumbnail);
+    }
+
+    public function test_editor_without_permission_cannot_delete_product_image(): void
+    {
+        // نقش 'editor' برای عبور از دروازه ورودی پنل کافی است، ولی بدون
+        // Permission واقعی 'products.manage'، نباید بتواند عکس حذف کند.
+        $role = Role::create(['name' => 'Editor', 'slug' => 'editor']);
+        $user = User::factory()->create();
+        $user->roles()->attach($role);
+        $product = Product::factory()->create();
+        $image = $product->images()->create(['path' => 'products/x.jpg', 'is_thumbnail' => true, 'sort_order' => 0]);
+
+        $this->actingAs($user)->delete("/admin/product-images/{$image->id}")->assertStatus(403);
+    }
 }

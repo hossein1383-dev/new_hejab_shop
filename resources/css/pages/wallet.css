@@ -4,18 +4,54 @@
     border-radius: var(--radius-card);
     padding: var(--space-6);
     display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+    overflow: hidden;
+}
+
+.wallet-balance-card__info {
+    display: flex;
     flex-direction: column;
+    align-items: flex-start;
     gap: var(--space-2);
 }
 
 .wallet-balance-card__label {
-    font-size: 0.85rem;
-    opacity: 0.85;
+    font-size: 1.1rem;
+    font-weight: var(--font-weight-bold);
 }
 
 .wallet-balance-card__amount {
-    font-size: 1.8rem;
-    font-weight: var(--font-weight-bold);
+    font-size: 0.95rem;
+    opacity: 0.9;
+}
+
+.wallet-balance-card__topup-btn {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(4px);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 999px;
+    padding: var(--space-2) var(--space-4);
+    font-size: 0.85rem;
+    font-weight: var(--font-weight-medium);
+    cursor: pointer;
+    margin-top: var(--space-1);
+    transition: background var(--motion-fast);
+}
+
+.wallet-balance-card__topup-btn:hover {
+    background: rgba(255, 255, 255, 0.32);
+}
+
+.wallet-balance-card__icon {
+    flex-shrink: 0;
+    color: #fff;
+    opacity: 0.9;
 }
 
 .wallet-transaction {

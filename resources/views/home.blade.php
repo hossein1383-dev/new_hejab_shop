@@ -1,6 +1,6 @@
 @extends('layouts.store')
 
-@section('title', 'فروشگاه اینترنتی — صفحه اصلی')
+@section('title', 'صفحه اصلی')
 
 @push('styles')
     @vite([

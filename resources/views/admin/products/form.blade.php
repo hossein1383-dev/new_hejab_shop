@@ -116,7 +116,13 @@
         @if($product->exists && $product->images->isNotEmpty())
             <div class="admin-form__image-row">
                 @foreach($product->images as $image)
-                    <img src="{{ asset('storage/' . $image->path) }}" alt="" class="admin-form__preview-image">
+                    <div style="position:relative; display:inline-block;">
+                        <img src="{{ asset('storage/' . $image->path) }}" alt="" class="admin-form__preview-image">
+                        <form method="POST" action="{{ route('admin.products.images.destroy', $image) }}" style="position:absolute; top:2px; left:2px;" data-confirm="این تصویر حذف شود؟">
+                            @csrf @method('DELETE')
+                            <button type="submit" style="background:var(--danger); color:#fff; border:none; border-radius:50%; width:22px; height:22px; cursor:pointer; line-height:1;">×</button>
+                        </form>
+                    </div>
                 @endforeach
             </div>
         @endif

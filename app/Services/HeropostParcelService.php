@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Contracts\SmsGatewayContract;
 use App\Models\Order;
 use Illuminate\Support\Facades\Log;
 
@@ -25,8 +26,10 @@ class HeropostParcelService
     private const SERVICE_TYPE_ID = 1; // پیشتاز — پیش‌فرض؛ «ویژه» (۳) هم قابل استفاده
     private const PACKET_TYPE_ID = 2; // بسته
 
-    public function __construct(private readonly HeropostClient $client)
-    {
+    public function __construct(
+        private readonly HeropostClient $client,
+        private readonly SmsGatewayContract $smsGateway,
+    ) {
     }
 
     /**
@@ -88,6 +91,18 @@ class HeropostParcelService
             'heropost_parcel_id' => $trackingCode,
             'heropost_tracking_code' => $trackingCode,
         ]);
+
+        // بخش ۵۵: پیامک اطلاع ارسال مرسوله + کد رهگیری به مشتری
+        if ($trackingCode && $order->user) {
+            try {
+                $this->smsGateway->sendParcelShipped($order->user->phone, $order->user->smsDisplayName(), $trackingCode);
+            } catch (\Throwable $e) {
+                Log::warning('ارسال پیامک اطلاع مرسوله به مشتری ناموفق بود', [
+                    'order_id' => $order->id,
+                    'exception' => $e->getMessage(),
+                ]);
+            }
+        }
 
         return $order->fresh();
     }

@@ -222,6 +222,7 @@ Route::post('/orders/{order}/create-parcel', [AdminOrderController::class, 'crea
     Route::get('/products/{product}/edit', [ProductPageController::class, 'edit'])->name('products.edit');
     Route::put('/products/{product}', [ProductPageController::class, 'update'])->name('products.update');
     Route::delete('/products/{product}', [ProductPageController::class, 'destroy'])->name('products.destroy');
+    Route::delete('/product-images/{image}', [ProductPageController::class, 'destroyImage'])->name('products.images.destroy');
 
     Route::get('/coupons', [AdminCouponController::class, 'index'])->name('coupons.index');
     Route::get('/coupons/create', [AdminCouponController::class, 'create'])->name('coupons.create');
@@ -229,6 +230,7 @@ Route::post('/orders/{order}/create-parcel', [AdminOrderController::class, 'crea
     Route::get('/coupons/{coupon}/edit', [AdminCouponController::class, 'edit'])->name('coupons.edit');
     Route::put('/coupons/{coupon}', [AdminCouponController::class, 'update'])->name('coupons.update');
     Route::delete('/coupons/{coupon}', [AdminCouponController::class, 'destroy'])->name('coupons.destroy');
+    Route::post('/coupons/{coupon}/send-gift-sms', [AdminCouponController::class, 'sendGiftSms'])->name('coupons.send-gift-sms');
 
     Route::get('/reviews', [AdminReviewController::class, 'index'])->name('reviews.index');
     Route::put('/reviews/{review}/moderate', [AdminReviewController::class, 'moderate'])->name('reviews.moderate');
@@ -283,9 +285,3 @@ Route::post('/orders/{order}/create-parcel', [AdminOrderController::class, 'crea
     Route::get('/inventory', [AdminInventoryController::class, 'index'])->name('inventory.index');
     Route::post('/inventory/{product}/adjust', [AdminInventoryController::class, 'adjust'])->name('inventory.adjust');
 });
-
-Route::get('/_deploy/migrate', [\App\Http\Controllers\DeployController::class, 'migrate']);
-Route::get('/_deploy/rollback', [\App\Http\Controllers\DeployController::class, 'rollback']);
-Route::get('/_deploy/clear-cache', [\App\Http\Controllers\DeployController::class, 'clearCache']);
-Route::get('/_deploy/npm-build', [\App\Http\Controllers\DeployController::class, 'npmBuild']);
-Route::get('/_deploy/composer-install', [\App\Http\Controllers\DeployController::class, 'composerInstall']);

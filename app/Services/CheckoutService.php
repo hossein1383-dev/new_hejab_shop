@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Contracts\PaymentGatewayContract;
 use App\Contracts\ShippingGatewayContract;
+use App\Contracts\SmsGatewayContract;
 use App\Models\Address;
 use App\Models\Cart;
 use App\Models\Order;
@@ -26,6 +27,7 @@ class CheckoutService
         private readonly WalletService $walletService,
         private readonly PaymentGatewayContract $paymentGateway,
         private readonly HeropostParcelService $heropostParcelService,
+        private readonly SmsGatewayContract $smsGateway,
     ) {
     }
 
@@ -184,6 +186,36 @@ class CheckoutService
     public function notifyOrderCreated(Order $order): void
     {
         $order->user?->notify(new OrderCreatedNotification($order));
+
+        // بخش ۵۵: پیامک تایید سفارش به خودِ مشتری
+        if ($order->user) {
+            try {
+                $this->smsGateway->sendOrderConfirmation($order->user->phone, $order->user->smsDisplayName());
+            } catch (\Throwable $e) {
+                \Illuminate\Support\Facades\Log::warning('ارسال پیامک تایید سفارش به مشتری ناموفق بود', [
+                    'order_id' => $order->id,
+                    'exception' => $e->getMessage(),
+                ]);
+            }
+        }
+
+        // بخش ۵۴: به همه سوپر ادمین‌ها پیامک هشدار سفارش جدید فرستاده می‌شود.
+        $superAdmins = \App\Models\User::whereHas('roles', fn ($q) => $q->where('slug', 'super-admin'))
+            ->whereNotNull('phone')
+            ->get();
+
+        foreach ($superAdmins as $admin) {
+            try {
+                $this->smsGateway->sendNewOrderAdminAlert($admin->phone, $admin->name, $order->shipping_phone);
+            } catch (\Throwable $e) {
+                // هرگز نباید ثبت سفارش را به‌خاطر خطای پیامک متوقف کند
+                \Illuminate\Support\Facades\Log::warning('ارسال پیامک هشدار سفارش جدید به سوپر ادمین ناموفق بود', [
+                    'order_id' => $order->id,
+                    'admin_id' => $admin->id,
+                    'exception' => $e->getMessage(),
+                ]);
+            }
+        }
     }
 
     private function generateOrderNumber(): string
@@ -261,7 +293,7 @@ class CheckoutService
 
         if (! $refundedToCard) {
             if ($order->user) {
-                $this->walletService->credit($order->user, $order->total, "refund-order-{$order->id}", "بازگشت وجه برای سفارش {$order->order_number}");
+                $this->walletService->credit($order->user, $order->total, "refund-order-{$order->id}", "بازگشت وجه (به کیف پول، چون بازگشت مستقیم به کارت ممکن نشد) برای سفارش {$order->order_number}");
             } else {
                 Log::critical('استرداد به کارت ناموفق بود و سفارش مهمان است (کیف پول ندارد) — نیاز فوری به بازگشت وجه دستی', [
                     'order_id' => $order->id,

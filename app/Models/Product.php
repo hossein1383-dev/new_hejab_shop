@@ -68,6 +68,27 @@ class Product extends Model
         return $this->hasMany(ProductVariant::class);
     }
 
+    /**
+     * بخش ۵۸: اگر واریانت‌های محصول (مثلاً جنس ندا/حریر) قیمت‌های متفاوت
+     * داشته باشند، به‌جای یک قیمت ثابت نادرست، «از X تومان» نمایش داده
+     * می‌شود. رابطه variants باید از قبل Eager Load شده باشد.
+     */
+    public function priceRange(): array
+    {
+        $prices = $this->variants
+            ->filter(fn ($variant) => $variant->status === 'active')
+            ->map(fn ($variant) => $variant->price ?? $this->price);
+
+        if ($prices->isEmpty()) {
+            return ['min' => $this->price, 'max' => $this->price, 'has_range' => false];
+        }
+
+        $min = $prices->min();
+        $max = $prices->max();
+
+        return ['min' => $min, 'max' => $max, 'has_range' => $min !== $max];
+    }
+
     public function reviews(): HasMany
     {
         return $this->hasMany(Review::class);

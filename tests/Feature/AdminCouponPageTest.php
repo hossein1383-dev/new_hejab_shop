@@ -73,4 +73,45 @@ class AdminCouponPageTest extends TestCase
 
         $this->actingAs($customer)->get('/admin/coupons')->assertStatus(403);
     }
+
+    public function test_admin_can_send_gift_sms_to_all_customers_with_phone(): void
+    {
+        $staff = $this->staffUser();
+        $coupon = Coupon::factory()->create(['code' => 'GIFT20']);
+        $withPhone1 = User::factory()->create(['phone' => '09120000001', 'name' => 'کاربر 0001']);
+        $withPhone2 = User::factory()->create(['phone' => '09120000002', 'name' => 'زهرا کریمی']);
+        $withoutPhone = User::factory()->create(['phone' => null]);
+
+        $this->mock(\App\Contracts\SmsGatewayContract::class, function ($mock) {
+            $mock->shouldReceive('sendCouponGift')->twice();
+        });
+
+        $response = $this->actingAs($staff)->post(route('admin.coupons.send-gift-sms', $coupon));
+
+        $response->assertRedirect();
+    }
+
+    public function test_sms_failure_for_one_customer_does_not_stop_sending_to_others(): void
+    {
+        $staff = $this->staffUser();
+        $coupon = Coupon::factory()->create(['code' => 'GIFT30']);
+        User::factory()->create(['phone' => '09120000003']);
+        User::factory()->create(['phone' => '09120000004']);
+
+        $this->mock(\App\Contracts\SmsGatewayContract::class, function ($mock) {
+            $mock->shouldReceive('sendCouponGift')
+                ->twice()
+                ->andReturnUsing(function () {
+                    static $calls = 0;
+                    $calls++;
+                    if ($calls === 1) {
+                        throw new \RuntimeException('قطعی سرویس');
+                    }
+                });
+        });
+
+        $response = $this->actingAs($staff)->post(route('admin.coupons.send-gift-sms', $coupon));
+
+        $response->assertRedirect();
+    }
 }

@@ -93,6 +93,14 @@ document.getElementById('address-city-select')?.addEventListener('change', (even
     const selectedOption = event.target.selectedOptions[0];
     document.getElementById('address-heropost-city-id').value = selectedOption?.dataset.id || '';
 });
+document.querySelector('[data-toggle-topup-form]')?.addEventListener('click', () => {
+    const wrap = document.querySelector('[data-topup-form-wrap]');
+    if (wrap) {
+        wrap.hidden = !wrap.hidden;
+        if (!wrap.hidden) document.getElementById('topup-amount')?.focus();
+    }
+});
+
 const walletTopupForm = document.getElementById('wallet-topup-form');
 walletTopupForm?.addEventListener('submit', async (event) => {
     event.preventDefault();

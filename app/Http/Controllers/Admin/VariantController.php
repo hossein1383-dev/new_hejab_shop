@@ -31,8 +31,9 @@ class VariantController extends Controller
 
         $product->load('variants.attributeValues.attribute', 'variants.inventory');
         $attributes = Attribute::with('values')->get();
+        $totalAvailableQuantity = $this->inventoryService->totalAvailableQuantity($product);
 
-        return view('admin.variants.index', compact('product', 'attributes'));
+        return view('admin.variants.index', compact('product', 'attributes', 'totalAvailableQuantity'));
     }
 
     /**

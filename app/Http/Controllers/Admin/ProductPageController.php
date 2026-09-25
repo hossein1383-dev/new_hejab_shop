@@ -90,6 +90,28 @@ class ProductPageController extends Controller
         return redirect()->route('admin.products.index')->with('order_success', 'محصول حذف شد.');
     }
 
+    /**
+     * حذف یک تصویر تکی از گالری محصول — بخش ۶۵. قبلاً اصلاً راهی برای این
+     * نبود، پس تصاویر فقط اضافه می‌شدند و هیچ‌وقت کم نمی‌شدند.
+     */
+    public function destroyImage(\App\Models\ProductImage $image): RedirectResponse
+    {
+        $this->authorize('update', $image->product);
+
+        $wasThumbnail = $image->is_thumbnail;
+        $product = $image->product;
+
+        \Illuminate\Support\Facades\Storage::disk('public')->delete($image->path);
+        $image->delete();
+
+        // اگر عکس شاخص حذف شد، اولین عکس باقی‌مانده (اگر بود) شاخص جدید شود
+        if ($wasThumbnail) {
+            $product->images()->orderBy('sort_order')->first()?->update(['is_thumbnail' => true]);
+        }
+
+        return back()->with('order_success', 'تصویر حذف شد.');
+    }
+
     private function parseTags(?string $tagsText): array
     {
         if (! $tagsText) {

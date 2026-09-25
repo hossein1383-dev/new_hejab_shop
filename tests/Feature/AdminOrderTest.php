@@ -116,4 +116,19 @@ class AdminOrderTest extends TestCase
             ->assertSee($paidOrder->order_number)
             ->assertDontSee($cancelledOrder->order_number);
     }
+
+    public function test_orders_list_can_be_filtered_by_today(): void
+    {
+        $this->withoutVite();
+        $staff = $this->staffUser(['orders.view']);
+        $todayOrder = $this->createPaidLikeOrder('paid');
+        $oldOrder = $this->createPaidLikeOrder('paid');
+        $oldOrder->forceFill(['created_at' => now()->subDays(3)])->save();
+
+        $response = $this->actingAs($staff)->get('/admin/orders?date=today');
+
+        $response->assertOk()
+            ->assertSee($todayOrder->order_number)
+            ->assertDontSee($oldOrder->order_number);
+    }
 }

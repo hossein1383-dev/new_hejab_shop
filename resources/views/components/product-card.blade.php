@@ -51,10 +51,15 @@
             @endif
         </div>
 
+        @php($priceRange = $product->priceRange())
         <div class="product-card__price-row">
-            <span class="product-card__price">{{ number_format($product->price) }} تومان</span>
-            @if($product->hasDiscount())
-                <span class="product-card__old-price">{{ number_format($product->compare_price) }}</span>
+            @if($priceRange['has_range'])
+                <span class="product-card__price product-card__price--range">از {{ number_format($priceRange['min']) }} تومان</span>
+            @else
+                <span class="product-card__price">{{ number_format($product->price) }} تومان</span>
+                @if($product->hasDiscount())
+                    <span class="product-card__old-price">{{ number_format($product->compare_price) }}</span>
+                @endif
             @endif
         </div>
 

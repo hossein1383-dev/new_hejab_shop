@@ -3,7 +3,7 @@
 --}}
 <header class="header-desktop" data-sticky>
     <div class="header-desktop__row">
-        <a href="{{ url('/') }}" class="header-desktop__logo">فروشگاه</a>
+        <a href="{{ url('/') }}" class="header-desktop__logo">{{ $siteName }}</a>
 
         <nav class="header-desktop__categories">
             @foreach($categories->take(6) as $category)
@@ -22,7 +22,7 @@
         </nav>
 
         <form action="{{ url('/products') }}" method="get" class="header-desktop__search">
-            <input type="search" name="q" placeholder="جستجوی محصول، برند یا دسته‌بندی...">
+            <input type="search" name="q" value="{{ request('q') }}" placeholder="جستجوی محصول، برند یا دسته‌بندی...">
             <button type="submit" aria-label="جستجو">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                     <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/>

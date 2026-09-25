@@ -20,6 +20,10 @@
                     <td><span class="admin-status-badge admin-status-badge--{{ $coupon->status === 'active' ? 'paid' : 'cancelled' }}">{{ $coupon->status }}</span></td>
                     <td>
                         <a href="{{ route('admin.coupons.edit', $coupon) }}" class="admin-table__link">ویرایش</a>
+                        <form method="POST" action="{{ route('admin.coupons.send-gift-sms', $coupon) }}" style="display:inline" data-confirm="پیامک این کد تخفیف برای همه مشتریان (با شماره تلفن) ارسال شود؟">
+                            @csrf
+                            <button type="submit" class="admin-table__link">ارسال پیامک هدیه</button>
+                        </form>
                         <form method="POST" action="{{ route('admin.coupons.destroy', $coupon) }}" style="display:inline" data-confirm="حذف این کد تخفیف؟">
                             @csrf @method('DELETE')
                             <button type="submit" class="admin-table__link admin-table__link--danger">حذف</button>

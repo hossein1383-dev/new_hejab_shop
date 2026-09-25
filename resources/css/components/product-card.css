@@ -121,6 +121,10 @@
     color: var(--text);
 }
 
+.product-card__price--range {
+    color: var(--primary);
+}
+
 .product-card__old-price {
     font-size: 0.8rem;
     color: var(--text-muted);

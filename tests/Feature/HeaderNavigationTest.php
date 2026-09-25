@@ -61,4 +61,14 @@ class HeaderNavigationTest extends TestCase
 
         $response->assertOk()->assertDontSee('data-logout-btn', false);
     }
+
+    public function test_header_shows_dynamic_site_name(): void
+    {
+        $this->withoutVite();
+        app(\App\Services\SettingService::class)->setMany(['site_name' => 'حجاب مروارید']);
+
+        $response = $this->get('/');
+
+        $response->assertOk()->assertSee('حجاب مروارید');
+    }
 }

@@ -18,7 +18,7 @@
     ]
   },
   "resources/css/components/header.css": {
-    "file": "assets/header-DYXr7x_v.css",
+    "file": "assets/header-DKos-yM1.css",
     "src": "resources/css/components/header.css",
     "isEntry": true,
     "name": "header",
@@ -36,7 +36,7 @@
     ]
   },
   "resources/css/components/product-card.css": {
-    "file": "assets/product-card-BHLxpNR9.css",
+    "file": "assets/product-card-BD2ZcMz0.css",
     "src": "resources/css/components/product-card.css",
     "isEntry": true,
     "name": "product-card",
@@ -72,7 +72,7 @@
     ]
   },
   "resources/css/pages/admin.css": {
-    "file": "assets/admin-DiWw0v0x.css",
+    "file": "assets/admin-BZaRbwK7.css",
     "src": "resources/css/pages/admin.css",
     "isEntry": true,
     "name": "admin",
@@ -81,7 +81,7 @@
     ]
   },
   "resources/css/pages/auth.css": {
-    "file": "assets/auth-BFR4Stfx.css",
+    "file": "assets/auth-Dp39WGiL.css",
     "src": "resources/css/pages/auth.css",
     "isEntry": true,
     "name": "auth",
@@ -126,7 +126,7 @@
     ]
   },
   "resources/css/pages/product.css": {
-    "file": "assets/product-Zrs4r6qA.css",
+    "file": "assets/product-Cq6uwSbL.css",
     "src": "resources/css/pages/product.css",
     "isEntry": true,
     "name": "product",
@@ -144,7 +144,7 @@
     ]
   },
   "resources/css/pages/wallet.css": {
-    "file": "assets/wallet-BbMmxhKt.css",
+    "file": "assets/wallet-DXr7CBT7.css",
     "src": "resources/css/pages/wallet.css",
     "isEntry": true,
     "name": "wallet",
@@ -162,7 +162,7 @@
     ]
   },
   "resources/js/account.js": {
-    "file": "assets/account-CibJHdSW.js",
+    "file": "assets/account-B80NP06u.js",
     "name": "account",
     "src": "resources/js/account.js",
     "isEntry": true
@@ -222,7 +222,7 @@
     "isEntry": true
   },
   "resources/js/header.js": {
-    "file": "assets/header-CUjv6pir.js",
+    "file": "assets/header-EZg76i3I.js",
     "name": "header",
     "src": "resources/js/header.js",
     "isEntry": true

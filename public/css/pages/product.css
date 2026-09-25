@@ -314,7 +314,7 @@
 .product-gallery-mobile__slide {
     flex: 0 0 100%;
     scroll-snap-align: start;
-    aspect-ratio: 1 / 1;
+    aspect-ratio: 3 / 4;
     object-fit: cover;
 }
 
@@ -433,7 +433,7 @@
         order: 1; /* همیشه اول (بالا) نمایش داده شود */
         border-radius: var(--radius-image);
         overflow: hidden;
-        aspect-ratio: 1 / 1;
+        aspect-ratio: 3 / 4;
     }
 
     .product-gallery-desktop__main-image {

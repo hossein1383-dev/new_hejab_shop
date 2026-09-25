@@ -37,4 +37,16 @@ class WalletPageTest extends TestCase
     {
         $this->get('/wallet')->assertRedirect('/login');
     }
+
+    public function test_wallet_page_shows_new_card_design_with_hidden_topup_form(): void
+    {
+        $this->withoutVite();
+        $user = User::factory()->create();
+
+        $response = $this->actingAs($user)->get('/wallet');
+
+        $response->assertOk()
+            ->assertSee('data-toggle-topup-form', false)
+            ->assertSee('wallet-balance-card__icon', false);
+    }
 }

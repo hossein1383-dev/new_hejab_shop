@@ -19,6 +19,7 @@ class ProductController extends Controller
         private readonly CategoryService $categoryService,
         private readonly CartService $cartService,
         private readonly WishlistService $wishlistService,
+        private readonly \App\Services\InventoryService $inventoryService,
     ) {
     }
 
@@ -91,6 +92,7 @@ class ProductController extends Controller
 
         return view('products.show', [
             'product' => $product,
+            'totalAvailableQuantity' => $this->inventoryService->totalAvailableQuantity($product),
             'relatedProducts' => $relatedProducts,
             'categories' => $categories,
             'cartItemsCount' => $cartItemsCount,

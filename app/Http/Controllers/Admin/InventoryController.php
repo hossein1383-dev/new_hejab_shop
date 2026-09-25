@@ -23,6 +23,12 @@ class InventoryController extends Controller
         $products = Product::query()
             ->with(['inventory', 'variants.inventory'])
             ->when($request->filled('search'), fn ($q) => $q->where('name', 'like', '%' . $request->input('search') . '%'))
+            ->when($request->boolean('low_stock'), function ($q) {
+                $q->where(function ($query) {
+                    $query->whereHas('inventory', fn ($iq) => $iq->where('quantity', '<=', 5))
+                        ->orWhereHas('variants.inventory', fn ($iq) => $iq->where('quantity', '<=', 5));
+                });
+            })
             ->paginate(20)
             ->withQueryString();
 

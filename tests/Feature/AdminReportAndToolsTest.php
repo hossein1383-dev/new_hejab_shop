@@ -188,4 +188,38 @@ class AdminReportAndToolsTest extends TestCase
         $inventoryService = app(InventoryService::class);
         $this->assertEquals(20, $inventoryService->availableQuantity($product, null));
     }
+
+    public function test_inventory_list_can_be_filtered_by_low_stock(): void
+    {
+        $this->withoutVite();
+        $staff = $this->staffUser(['inventory.view']);
+
+        $lowStockProduct = Product::factory()->create(['name' => 'محصول کم‌موجود']);
+        app(InventoryService::class)->recordMovement($lowStockProduct, null, 'purchase', 3);
+
+        $normalProduct = Product::factory()->create(['name' => 'محصول موجودی عادی']);
+        app(InventoryService::class)->recordMovement($normalProduct, null, 'purchase', 50);
+
+        $response = $this->actingAs($staff)->get('/admin/inventory?low_stock=1');
+
+        $response->assertOk()
+            ->assertSee('محصول کم‌موجود')
+            ->assertDontSee('محصول موجودی عادی');
+    }
+
+    public function test_inventory_list_shows_total_quantity_across_variants(): void
+    {
+        $this->withoutVite();
+        $staff = $this->staffUser(['inventory.view']);
+        $product = Product::factory()->create(['name' => 'محصول دو ورینتی']);
+        $variant1 = \App\Models\ProductVariant::factory()->create(['product_id' => $product->id]);
+        $variant2 = \App\Models\ProductVariant::factory()->create(['product_id' => $product->id]);
+        app(InventoryService::class)->recordMovement($product, $variant1, 'purchase', 4);
+        app(InventoryService::class)->recordMovement($product, $variant2, 'purchase', 6);
+
+        $response = $this->actingAs($staff)->get('/admin/inventory');
+
+        $response->assertOk()->assertSee('موجودی کل');
+        $this->assertStringContainsString('10', $response->getContent());
+    }
 }

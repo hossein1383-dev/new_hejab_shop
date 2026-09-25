@@ -27,6 +27,7 @@ class OrderController extends Controller
             ->with('user')
             ->when($request->filled('search'), fn ($q) => $q->where('order_number', 'like', '%' . $request->input('search') . '%'))
             ->when($request->filled('status'), fn ($q) => $q->where('status', $request->input('status')))
+            ->when($request->input('date') === 'today', fn ($q) => $q->whereDate('created_at', today()))
             ->latest()
             ->paginate(20)
             ->withQueryString();

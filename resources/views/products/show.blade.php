@@ -161,6 +161,10 @@
                     </div>
                 </div>
 
+                @if($totalAvailableQuantity > 0)
+                    <p class="product-page__total-stock">موجودی کل: {{ number_format($totalAvailableQuantity) }} عدد</p>
+                @endif
+
                 <div class="product-page__actions">
                     <button type="button" class="product-page__add-to-cart" data-add-to-cart-detail
                         data-product-id="{{ $product->id }}">
@@ -180,7 +184,7 @@
 
                 <div class="product-page__trust">
                     <span>✓ ضمانت اصالت کالا</span>
-                    <span>✓ امکان بازگشت کالا تا ۷ روز</span>
+                    {{-- <span>✓ امکان بازگشت کالا تا ۷ روز</span> --}}
                 </div>
             </div>
         </div>
@@ -231,7 +235,7 @@
                                     @endfor
                                     <input type="hidden" name="rating" value="0">
                                 </div>
-                                <textarea name="comment" placeholder="نظر شما درباره این محصول (اختیاری)" rows="3"></textarea>
+                                <textarea name="comment" placeholder="نظر شما درباره این محصول" rows="3"></textarea>
                                 <button type="submit" class="qa-form__submit">ثبت نظر</button>
                             </form>
                         @else

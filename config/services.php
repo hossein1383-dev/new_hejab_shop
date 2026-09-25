@@ -50,5 +50,9 @@ return [
     'smsir' => [
         'driver' => env('SMS_GATEWAY_DRIVER', 'fake'),
         'otp_template_id' => env('SMSIR_OTP_TEMPLATE_ID'),
+        'new_order_template_id' => env('SMSIR_NEW_ORDER_TEMPLATE_ID'),
+        'order_confirmation_template_id' => env('SMSIR_ORDER_CONFIRMATION_TEMPLATE_ID'),
+        'parcel_shipped_template_id' => env('SMSIR_PARCEL_SHIPPED_TEMPLATE_ID'),
+        'coupon_gift_template_id' => env('SMSIR_COUPON_GIFT_TEMPLATE_ID'),
     ],
 ];

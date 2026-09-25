@@ -11,6 +11,10 @@
             </div>
             <div class="admin-order-card__row">
                 <a href="{{ route('admin.coupons.edit', $coupon) }}" class="admin-table__link">ویرایش</a>
+                <form method="POST" action="{{ route('admin.coupons.send-gift-sms', $coupon) }}" data-confirm="پیامک این کد تخفیف برای همه مشتریان (با شماره تلفن) ارسال شود؟">
+                    @csrf
+                    <button type="submit" class="admin-table__link">ارسال پیامک هدیه</button>
+                </form>
                 <form method="POST" action="{{ route('admin.coupons.destroy', $coupon) }}" data-confirm="حذف این کد تخفیف؟">
                     @csrf @method('DELETE')
                     <button type="submit" class="admin-table__link admin-table__link--danger">حذف</button>

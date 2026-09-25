@@ -78,4 +78,52 @@ class InventoryTest extends TestCase
 
         $this->assertEquals(20, $service->availableQuantity($product, null));
     }
+
+    public function test_total_available_quantity_sums_across_all_variants(): void
+    {
+        $product = Product::factory()->create();
+        $variant1 = \App\Models\ProductVariant::factory()->create(['product_id' => $product->id]);
+        $variant2 = \App\Models\ProductVariant::factory()->create(['product_id' => $product->id]);
+        $service = app(InventoryService::class);
+
+        $service->recordMovement($product, $variant1, 'purchase', 10);
+        $service->recordMovement($product, $variant2, 'purchase', 15);
+
+        $this->assertEquals(25, $service->totalAvailableQuantity($product));
+    }
+
+    public function test_total_available_quantity_updates_when_new_variant_added(): void
+    {
+        $product = Product::factory()->create();
+        $variant1 = \App\Models\ProductVariant::factory()->create(['product_id' => $product->id]);
+        $service = app(InventoryService::class);
+        $service->recordMovement($product, $variant1, 'purchase', 10);
+
+        $this->assertEquals(10, $service->totalAvailableQuantity($product));
+
+        $variant2 = \App\Models\ProductVariant::factory()->create(['product_id' => $product->id]);
+        $service->recordMovement($product, $variant2, 'purchase', 20);
+
+        $this->assertEquals(30, $service->totalAvailableQuantity($product));
+    }
+
+    public function test_total_available_quantity_reflects_reservations(): void
+    {
+        $product = Product::factory()->create();
+        $variant = \App\Models\ProductVariant::factory()->create(['product_id' => $product->id]);
+        $service = app(InventoryService::class);
+        $service->recordMovement($product, $variant, 'purchase', 10);
+        $service->reserve($product, $variant, 3);
+
+        $this->assertEquals(7, $service->totalAvailableQuantity($product));
+    }
+
+    public function test_total_available_quantity_with_no_variants_uses_base_inventory(): void
+    {
+        $product = Product::factory()->create();
+        $service = app(InventoryService::class);
+        $service->recordMovement($product, null, 'purchase', 50);
+
+        $this->assertEquals(50, $service->totalAvailableQuantity($product));
+    }
 }
