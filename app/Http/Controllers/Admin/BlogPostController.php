@@ -41,6 +41,8 @@ class BlogPostController extends Controller
 
         BlogPost::create($data);
 
+        \Illuminate\Support\Facades\Cache::forget('home.latest_blog_posts');
+
         return redirect()->route('admin.blog.index')->with('order_success', 'مطلب ایجاد شد.');
     }
 
@@ -69,6 +71,8 @@ class BlogPostController extends Controller
         }
 
         $blog_post->update($data);
+
+        \Illuminate\Support\Facades\Cache::forget('home.latest_blog_posts');
 
         return redirect()->route('admin.blog.index')->with('order_success', 'مطلب ویرایش شد.');
     }
