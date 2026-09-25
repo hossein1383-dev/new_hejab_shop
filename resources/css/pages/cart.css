@@ -257,7 +257,7 @@
     border-top: none;
 }
 
-.cart-pending-orders__item div {
+.cart-pending-orders__item-info {
     display: flex;
     flex-direction: column;
     gap: 2px;
@@ -273,4 +273,20 @@
     font-weight: var(--font-weight-medium);
     cursor: pointer;
     flex-shrink: 0;
+}
+
+.cart-pending-orders__actions {
+    display: flex;
+    gap: var(--space-2);
+    flex-shrink: 0;
+}
+
+.cart-pending-orders__cancel-btn {
+    background: none;
+    color: var(--danger);
+    border: 1px solid var(--danger);
+    border-radius: var(--radius-button);
+    padding: var(--space-2) var(--space-4);
+    font-weight: var(--font-weight-medium);
+    cursor: pointer;
 }

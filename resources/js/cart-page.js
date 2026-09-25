@@ -117,3 +117,21 @@ document.querySelectorAll('[data-retry-payment]').forEach((btn) => {
         }
     });
 });
+
+// لغو سفارش در انتظار پرداخت توسط خودِ مشتری — بخش ۶۷
+document.querySelectorAll('[data-cancel-pending-order]').forEach((btn) => {
+    btn.addEventListener('click', async () => {
+        if (!confirm('این سفارش حذف شود؟ موجودی رزروشده آزاد می‌شود.')) return;
+
+        const orderId = btn.dataset.cancelPendingOrder;
+        btn.disabled = true;
+
+        try {
+            const response = await window.apiFetch(`/orders/${orderId}/cancel-own`, { method: 'DELETE' });
+            btn.closest('[data-pending-order]').remove();
+        } catch (error) {
+            window.showToast?.(error.message || 'حذف سفارش ممکن نشد.', 'error');
+            btn.disabled = false;
+        }
+    });
+});

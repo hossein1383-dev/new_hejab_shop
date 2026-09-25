@@ -23,13 +23,18 @@
                 <h2 class="cart-pending-orders__title">⚠️ سفارش‌های در انتظار پرداخت</h2>
                 @foreach($pendingOrders as $pendingOrder)
                     <div class="cart-pending-orders__item" data-pending-order="{{ $pendingOrder->id }}">
-                        <div>
+                        <div class="cart-pending-orders__item-info">
                             <strong>{{ $pendingOrder->productNamesSummary() }}</strong>
                             <span>{{ number_format($pendingOrder->total) }} تومان</span>
                         </div>
-                        <button type="button" class="cart-pending-orders__pay-btn" data-retry-payment="{{ $pendingOrder->id }}">
-                            پرداخت
-                        </button>
+                        <div class="cart-pending-orders__actions">
+                            <button type="button" class="cart-pending-orders__pay-btn" data-retry-payment="{{ $pendingOrder->id }}">
+                                پرداخت
+                            </button>
+                            <button type="button" class="cart-pending-orders__cancel-btn" data-cancel-pending-order="{{ $pendingOrder->id }}">
+                                حذف
+                            </button>
+                        </div>
                     </div>
                 @endforeach
             </div>

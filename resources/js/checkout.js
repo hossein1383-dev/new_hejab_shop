@@ -296,17 +296,20 @@ document.getElementById('city')?.addEventListener('change', (event) => {
 
     function estimateForSelectedAddress() {
         const checkedRadio = document.querySelector('input[name="address_id"]:checked');
-        if (!checkedRadio) return;
 
-        if (checkedRadio.value !== 'new') {
-            updateShippingEstimate({ address_id: checkedRadio.value });
-        } else {
+        // بخش ۶۸: اگر مشتری اصلاً آدرس ذخیره‌شده‌ای نداشته باشد، هیچ
+        // رادیویی روی صفحه رندر نمی‌شود (نه فقط انتخاب‌نشده — اصلاً وجود
+        // ندارد) — این نباید مانع تخمین قیمت شود؛ مستقیم سراغ فیلدهای
+        // آدرس جدید می‌رویم.
+        if (!checkedRadio || checkedRadio.value === 'new') {
             const heropostCityId = document.getElementById('heropost_city_id')?.value;
             const province = document.getElementById('province')?.value;
             const city = document.getElementById('city')?.value;
             if (province && city) {
                 updateShippingEstimate({ province, city, heropost_city_id: heropostCityId || null });
             }
+        } else {
+            updateShippingEstimate({ address_id: checkedRadio.value });
         }
     }
 

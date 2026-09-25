@@ -10,8 +10,10 @@ use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
-    public function __construct(private readonly PaymentService $paymentService)
-    {
+    public function __construct(
+        private readonly PaymentService $paymentService,
+        private readonly \App\Services\CheckoutService $checkoutService,
+    ) {
     }
 
     /**
@@ -42,5 +44,23 @@ class OrderController extends Controller
         }
 
         return response()->json(['success' => true, 'data' => $result]);
+    }
+
+    /**
+     * لغو سفارش «در انتظار پرداخت» توسط خودِ مشتری از صفحه سبد خرید —
+     * بخش ۶۷. چون سفارش هنوز پرداخت نشده، هیچ بازگشت وجهی لازم نیست؛
+     * فقط موجودی رزروشده آزاد می‌شود (همان منطق cancelOrder ادمین).
+     */
+    public function cancelOwn(Request $request, Order $order): JsonResponse
+    {
+        abort_unless($order->user_id === $request->user()?->id, 403);
+
+        try {
+            $this->checkoutService->cancelOrder($order);
+        } catch (\DomainException $e) {
+            return response()->json(['success' => false, 'message' => $e->getMessage()], 422);
+        }
+
+        return response()->json(['success' => true]);
     }
 }

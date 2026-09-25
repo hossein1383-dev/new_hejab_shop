@@ -99,4 +99,37 @@ class CartPageTest extends TestCase
 
         return [$order, $user];
     }
+
+    public function test_customer_can_cancel_own_pending_order(): void
+    {
+        [$order, $user] = $this->createPendingOrderForCartTest();
+
+        $response = $this->actingAs($user)->deleteJson("/orders/{$order->id}/cancel-own");
+
+        $response->assertOk()->assertJson(['success' => true]);
+        $this->assertEquals('cancelled', $order->fresh()->status);
+    }
+
+    public function test_customer_cannot_cancel_another_users_pending_order(): void
+    {
+        [$order] = $this->createPendingOrderForCartTest();
+        $otherUser = \App\Models\User::factory()->create();
+
+        $response = $this->actingAs($otherUser)->deleteJson("/orders/{$order->id}/cancel-own");
+
+        $response->assertForbidden();
+        $this->assertEquals('pending_payment', $order->fresh()->status);
+    }
+
+    public function test_cancelling_own_order_releases_reserved_inventory(): void
+    {
+        [$order, $user] = $this->createPendingOrderForCartTest();
+        $product = $order->items->first()->product;
+        $inventoryService = app(\App\Services\InventoryService::class);
+        $beforeCancel = $inventoryService->availableQuantity($product, null);
+
+        $this->actingAs($user)->deleteJson("/orders/{$order->id}/cancel-own");
+
+        $this->assertEquals($beforeCancel + 1, $inventoryService->availableQuantity($product, null));
+    }
 }
