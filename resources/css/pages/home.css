@@ -112,6 +112,33 @@
     gap: var(--space-3);
 }
 
+/* بخش ۶۹: ردیف اسکرول‌شونده افقی برای کارت محصول — همه‌جا به‌جز خودِ
+   صفحه لیست محصولات (که همچنان از .product-grid با Wrap استفاده می‌کند).
+   استفاده در صفحه اصلی (جدیدترین/فروش ویژه/پرفروش‌ترین) و محصولات مرتبط. */
+.product-scroller {
+    display: flex;
+    gap: var(--space-3);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding-bottom: var(--space-2);
+    -webkit-overflow-scrolling: touch;
+}
+
+.product-scroller::-webkit-scrollbar {
+    height: 6px;
+}
+
+.product-scroller::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 3px;
+}
+
+.product-scroller > * {
+    flex: 0 0 45%;
+    scroll-snap-align: start;
+    min-width: 160px;
+}
+
 /* ==========================================================================
    DESKTOP (1280px - 1920px)
    تصمیم طراحی: دسته‌بندی‌ها Wrap می‌شوند (فضای افقی کافی است، نیازی به
@@ -152,6 +179,10 @@
     .product-grid {
         grid-template-columns: repeat(4, 1fr);
         gap: var(--space-6);
+    }
+
+    .product-scroller > * {
+        flex: 0 0 calc(25% - var(--space-6) * 3 / 4);
     }
 }
 

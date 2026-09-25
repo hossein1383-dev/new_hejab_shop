@@ -184,7 +184,7 @@
 
                 <div class="product-page__trust">
                     <span>✓ ضمانت اصالت کالا</span>
-                    {{-- <span>✓ امکان بازگشت کالا تا ۷ روز</span> --}}
+                    <span>✓ امکان بازگشت کالا تا ۷ روز</span>
                 </div>
             </div>
         </div>
@@ -235,7 +235,7 @@
                                     @endfor
                                     <input type="hidden" name="rating" value="0">
                                 </div>
-                                <textarea name="comment" placeholder="نظر شما درباره این محصول" rows="3"></textarea>
+                                <textarea name="comment" placeholder="نظر شما درباره این محصول (اختیاری)" rows="3"></textarea>
                                 <button type="submit" class="qa-form__submit">ثبت نظر</button>
                             </form>
                         @else
@@ -279,7 +279,7 @@
         @if($relatedProducts->isNotEmpty())
             <section class="home-section">
                 <h2 class="home-section__title">محصولات مرتبط</h2>
-                <div class="product-grid">
+                <div class="product-scroller">
                     @foreach($relatedProducts as $related)
                         @include('components.product-card', ['product' => $related])
                     @endforeach

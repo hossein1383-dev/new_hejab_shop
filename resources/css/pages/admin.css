@@ -330,6 +330,7 @@
     transition: transform var(--motion-slow) var(--motion-easing);
     display: flex;
     flex-direction: column;
+    overflow-y: auto;
     padding: var(--space-6) var(--space-4);
 }
 
@@ -431,6 +432,7 @@
         position: fixed;
         transform: none;
         width: 240px;
+        overflow-y: auto;
     }
 
     .admin-main {

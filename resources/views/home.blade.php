@@ -1,6 +1,6 @@
 @extends('layouts.store')
 
-@section('title', 'صفحه اصلی')
+@section('title', 'فروشگاه اینترنتی — صفحه اصلی')
 
 @push('styles')
     @vite([
@@ -15,7 +15,7 @@
 
 @section('body')
     {{-- Hero — از بنرهای مدیریت‌شده در پنل استفاده می‌شود؛ در نبود بنر، محتوای ثابت پیش‌فرض نمایش داده می‌شود --}}
-    {{-- @if($banners->isNotEmpty())
+    @if($banners->isNotEmpty())
         <section class="hero hero--banner" style="--hero-bg-desktop: url('{{ asset('storage/' . $banners->first()->desktopImage()) }}'); --hero-bg-mobile: url('{{ asset('storage/' . $banners->first()->mobileImage()) }}');">
             @if($banners->first()->link_url)
                 <a href="{{ $banners->first()->link_url }}" class="hero__banner-link" aria-label="{{ $banners->first()->title }}"></a>
@@ -29,7 +29,7 @@
                 <a href="{{ url('/products') }}" class="hero__cta">مشاهده محصولات</a>
             </div>
         </section>
-    @endif --}}
+    @endif
 
     {{-- دسته‌بندی‌های محبوب --}}
     @if($categories->isNotEmpty())
@@ -49,7 +49,7 @@
     @if($featuredProducts->isNotEmpty())
         <section class="home-section home-section--featured reveal-on-scroll">
             <h2 class="home-section__title home-section__title--on-dark">🔥 محصولات ویژه</h2>
-            <div class="product-grid">
+            <div class="product-scroller">
                 @foreach($featuredProducts as $product)
                     @include('components.product-card', ['product' => $product])
                 @endforeach
@@ -61,7 +61,7 @@
     @if($topRatedProducts->isNotEmpty())
         <section class="home-section reveal-on-scroll">
             <h2 class="home-section__title">⭐ بهترین کالاها از نگاه مشتری‌ها</h2>
-            <div class="product-grid">
+            <div class="product-scroller">
                 @foreach($topRatedProducts as $product)
                     @include('components.product-card', ['product' => $product])
                 @endforeach
@@ -73,7 +73,7 @@
     @if($newProducts->isNotEmpty())
         <section class="home-section reveal-on-scroll">
             <h2 class="home-section__title">✨ جدیدترین محصولات</h2>
-            <div class="product-grid">
+            <div class="product-scroller">
                 @foreach($newProducts as $product)
                     @include('components.product-card', ['product' => $product, 'badgeType' => 'new'])
                 @endforeach
@@ -85,7 +85,7 @@
     @if($bestSellers->isNotEmpty())
         <section class="home-section reveal-on-scroll">
             <h2 class="home-section__title">🏆 پرفروش‌ترین‌ها</h2>
-            <div class="product-grid">
+            <div class="product-scroller">
                 @foreach($bestSellers as $index => $product)
                     @include('components.product-card', ['product' => $product, 'badgeType' => 'bestseller', 'badgeNumber' => $index + 1])
                 @endforeach
@@ -137,7 +137,7 @@
                 <h2 class="home-section__title">{{ $row['category']->name }}</h2>
                 <a href="{{ url('/category/' . $row['category']->slug) }}" class="home-section__more">مشاهده بیشتر ←</a>
             </div>
-            <div class="product-grid">
+            <div class="product-scroller">
                 @foreach($row['products'] as $product)
                     @include('components.product-card', ['product' => $product])
                 @endforeach
