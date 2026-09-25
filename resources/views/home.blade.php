@@ -15,7 +15,7 @@
 
 @section('body')
     {{-- Hero — از بنرهای مدیریت‌شده در پنل استفاده می‌شود؛ در نبود بنر، محتوای ثابت پیش‌فرض نمایش داده می‌شود --}}
-    @if($banners->isNotEmpty())
+    {{-- @if($banners->isNotEmpty())
         <section class="hero hero--banner" style="--hero-bg-desktop: url('{{ asset('storage/' . $banners->first()->desktopImage()) }}'); --hero-bg-mobile: url('{{ asset('storage/' . $banners->first()->mobileImage()) }}');">
             @if($banners->first()->link_url)
                 <a href="{{ $banners->first()->link_url }}" class="hero__banner-link" aria-label="{{ $banners->first()->title }}"></a>
@@ -29,7 +29,7 @@
                 <a href="{{ url('/products') }}" class="hero__cta">مشاهده محصولات</a>
             </div>
         </section>
-    @endif
+    @endif --}}
 
     {{-- دسته‌بندی‌های محبوب --}}
     @if($categories->isNotEmpty())
