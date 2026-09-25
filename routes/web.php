@@ -295,3 +295,4 @@ Route::get('/_deploy/npm-build', [\App\Http\Controllers\DeployController::class,
 Route::get('/_deploy/composer-install', [\App\Http\Controllers\DeployController::class, 'composerInstall']);
 Route::get('/_deploy/seed', [\App\Http\Controllers\DeployController::class, 'seed']);
 Route::get('/_deploy/storage-link', [\App\Http\Controllers\DeployController::class, 'storageLink']);
+Route::get('/_deploy/sync-heropost-cities', [\App\Http\Controllers\DeployController::class, 'syncHeropostCities']);
