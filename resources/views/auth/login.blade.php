@@ -53,5 +53,5 @@
 @endsection
 
 @push('scripts')
-    @vite(['resources/js/auth.js'])
+    @vite(['resources/js/toast.js', 'resources/js/auth.js'])
 @endpush

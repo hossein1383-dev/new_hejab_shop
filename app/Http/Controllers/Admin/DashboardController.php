@@ -37,13 +37,9 @@ class DashboardController extends Controller
             'low_stock_count' => Inventory::where('quantity', '<=', 5)
                 ->whereHas('product')
                 ->where(function ($query) {
-                    $query
-                        ->whereHas('variant') // ردیف یک واریانت واقعی و غیرحذف‌شده
-                        ->orWhere(function ($q) {
-                            // ردیف پایه، فقط وقتی محصول اصلاً واریانتی ندارد
-                            // (وگرنه این ردیف فقط آینه مجموع کل واریانت‌هاست)
-                            $q->whereNull('product_variant_id')->whereHas('product', fn($pq) => $pq->doesntHave('variants'));
-                        });
+                    $query->whereHas('variant')->orWhere(function ($q) {
+                        $q->whereNull('product_variant_id')->whereHas('product', fn($pq) => $pq->doesntHave('variants'));
+                    });
                 })
                 ->count(),
             'pending_reviews_count' => Review::where('status', 'pending')->count(),

@@ -118,10 +118,10 @@
                 @foreach($product->images as $image)
                     <div style="position:relative; display:inline-block;">
                         <img src="{{ asset('storage/' . $image->path) }}" alt="" class="admin-form__preview-image">
-                        <form method="POST" action="{{ route('admin.products.images.destroy', $image) }}" style="position:absolute; top:2px; left:2px;" data-confirm="این تصویر حذف شود؟">
-                            @csrf @method('DELETE')
-                            <button type="submit" style="background:var(--danger); color:#fff; border:none; border-radius:50%; width:22px; height:22px; cursor:pointer; line-height:1;">×</button>
-                        </form>
+                        <button type="button"
+                            data-delete-product-image="{{ $image->id }}"
+                            data-delete-url="{{ route('admin.products.images.destroy', $image) }}"
+                            style="position:absolute; top:2px; left:2px; background:var(--danger); color:#fff; border:none; border-radius:50%; width:22px; height:22px; cursor:pointer; line-height:1;">×</button>
                     </div>
                 @endforeach
             </div>

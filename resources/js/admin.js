@@ -27,3 +27,33 @@ document.querySelectorAll('select[data-auto-submit]').forEach((select) => {
         this.form.submit();
     });
 });
+
+// حذف تک‌عکس محصول — بخش ۶۵. عمداً از fetch به‌جای فرم استفاده شده (نه
+// فرم تودرتو داخل فرم اصلی ویرایش محصول، که باعث باگ جدی حذف کل محصول
+// می‌شد چون _method=DELETE داخلش وارد فرم بیرونی می‌شد).
+document.querySelectorAll('[data-delete-product-image]').forEach((button) => {
+    button.addEventListener('click', async () => {
+        if (!confirm('این تصویر حذف شود؟')) return;
+
+        const url = button.dataset.deleteUrl;
+        const token = document.querySelector('meta[name="csrf-token"]')?.content;
+
+        try {
+            const response = await fetch(url, {
+                method: 'DELETE',
+                headers: {
+                    'X-CSRF-TOKEN': token,
+                    'Accept': 'application/json',
+                },
+            });
+
+            if (response.ok || response.redirected) {
+                button.closest('div').remove();
+            } else {
+                alert('حذف تصویر ممکن نشد.');
+            }
+        } catch (error) {
+            alert('خطا در ارتباط با سرور.');
+        }
+    });
+});
