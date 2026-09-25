@@ -187,18 +187,6 @@ class CheckoutService
     {
         $order->user?->notify(new OrderCreatedNotification($order));
 
-        // بخش ۵۵: پیامک تایید سفارش به خودِ مشتری
-        if ($order->user) {
-            try {
-                $this->smsGateway->sendOrderConfirmation($order->user->phone, $order->user->smsDisplayName());
-            } catch (\Throwable $e) {
-                \Illuminate\Support\Facades\Log::warning('ارسال پیامک تایید سفارش به مشتری ناموفق بود', [
-                    'order_id' => $order->id,
-                    'exception' => $e->getMessage(),
-                ]);
-            }
-        }
-
         // بخش ۵۴: به همه سوپر ادمین‌ها پیامک هشدار سفارش جدید فرستاده می‌شود.
         $superAdmins = \App\Models\User::whereHas('roles', fn ($q) => $q->where('slug', 'super-admin'))
             ->whereNotNull('phone')

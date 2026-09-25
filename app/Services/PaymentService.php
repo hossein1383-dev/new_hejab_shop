@@ -13,12 +13,7 @@ use Illuminate\Support\Str;
 
 class PaymentService
 {
-    public function __construct(
-        private readonly PaymentGatewayContract $gateway,
-        private readonly InventoryService $inventoryService,
-        private readonly WalletService $walletService,
-    ) {
-    }
+    public function __construct(private readonly PaymentGatewayContract $gateway, private readonly InventoryService $inventoryService, private readonly WalletService $walletService) {}
 
     /** ایجاد یک Payment جدید و شروع آن نزد Gateway (بخش ۱۴). */
     public function initiate(Order $order): array
@@ -59,11 +54,9 @@ class PaymentService
         $shouldNotifySuccess = false;
 
         $payment = DB::transaction(function () use ($verification, &$shouldNotifySuccess) {
-            $payment = Payment::where('reference', $verification['reference'])
-                ->lockForUpdate()
-                ->first();
+            $payment = Payment::where('reference', $verification['reference'])->lockForUpdate()->first();
 
-            if (! $payment) {
+            if (!$payment) {
                 throw new \DomainException('تراکنش پرداخت یافت نشد.');
             }
 
@@ -78,7 +71,7 @@ class PaymentService
                 'raw_response' => json_encode($verification),
             ]);
 
-            if (! $verification['success']) {
+            if (!$verification['success']) {
                 $payment->update(['status' => 'failed']);
                 $this->markOrderFailed($payment->order);
 
@@ -171,16 +164,22 @@ class PaymentService
         $order->load('items.product', 'items.variant');
 
         foreach ($order->items as $item) {
-            $this->inventoryService->confirmReservedSale(
-                $item->product,
-                $item->variant,
-                $item->quantity,
-                $order->order_number
-            );
+            $this->inventoryService->confirmReservedSale($item->product, $item->variant, $item->quantity, $order->order_number);
         }
 
         $order->update(['status' => 'paid', 'paid_at' => now()]);
         $order->statusHistories()->create(['from_status' => 'pending_payment', 'to_status' => 'paid']);
+
+        if ($order->user) {
+            try {
+                app(\App\Contracts\SmsGatewayContract::class)->sendOrderConfirmation($order->user->phone, $order->user->smsDisplayName());
+            } catch (\Throwable $e) {
+                \Illuminate\Support\Facades\Log::warning('ارسال پیامک تایید سفارش به مشتری ناموفق بود', [
+                    'order_id' => $order->id,
+                    'exception' => $e->getMessage(),
+                ]);
+            }
+        }
     }
 
     private function markOrderFailed(Order $order): void
