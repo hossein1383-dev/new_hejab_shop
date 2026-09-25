@@ -51,13 +51,13 @@ document.querySelectorAll('[data-blog-carousel]').forEach((carousel) => {
 
     prevBtn?.addEventListener('click', () => {
         stopAutoAdvance();
-        scrollByOneCard(-1);
+        scrollByOneCard(1);
         startAutoAdvance();
     });
 
     nextBtn?.addEventListener('click', () => {
         stopAutoAdvance();
-        scrollByOneCard(1);
+        scrollByOneCard(-1);
         startAutoAdvance();
     });
 
