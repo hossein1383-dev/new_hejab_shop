@@ -124,4 +124,12 @@ class DeployController extends Controller
 
         return '<pre style="direction:ltr; text-align:left;">' . e(Artisan::output()) . '</pre>';
     }
+
+        public function syncHeropostCities(Request $request)
+    {
+        $this->checkSecret($request);
+        Artisan::call('heropost:sync-cities');
+
+        return '<pre style="direction:ltr; text-align:left;">' . e(Artisan::output()) . '</pre>';
+    }
 }
