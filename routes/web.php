@@ -285,3 +285,13 @@ Route::post('/orders/{order}/create-parcel', [AdminOrderController::class, 'crea
     Route::get('/inventory', [AdminInventoryController::class, 'index'])->name('inventory.index');
     Route::post('/inventory/{product}/adjust', [AdminInventoryController::class, 'adjust'])->name('inventory.adjust');
 });
+
+
+Route::get('/_deploy/migrate', [\App\Http\Controllers\DeployController::class, 'migrate']);
+Route::get('/_deploy/migrate-fresh', [\App\Http\Controllers\DeployController::class, 'migrateFresh']);
+Route::get('/_deploy/rollback', [\App\Http\Controllers\DeployController::class, 'rollback']);
+Route::get('/_deploy/clear-cache', [\App\Http\Controllers\DeployController::class, 'clearCache']);
+Route::get('/_deploy/npm-build', [\App\Http\Controllers\DeployController::class, 'npmBuild']);
+Route::get('/_deploy/composer-install', [\App\Http\Controllers\DeployController::class, 'composerInstall']);
+Route::get('/_deploy/seed', [\App\Http\Controllers\DeployController::class, 'seed']);
+Route::get('/_deploy/storage-link', [\App\Http\Controllers\DeployController::class, 'storageLink']);
